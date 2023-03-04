@@ -10,5 +10,5 @@ set(YADL_INCLUDE_PRIVATE "include/private")
 include_directories("${YADL_INCLUDE_PUBLIC}/yadl")
 include_directories("${YADL_INCLUDE_PRIVATE}")
 
-add_library(yadl ${YADL_SOURCES})
+add_library(yadl SHARED ${YADL_SOURCES})
 target_include_directories(yadl PUBLIC "${YADL_INCLUDE_PUBLIC}")
