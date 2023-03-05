@@ -4,6 +4,7 @@
 #include <string>
 #include <stdexcept>
 #include <algorithm>
+#include <iostream>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "3rdparty/stb_image.h"
@@ -15,11 +16,55 @@
 
 namespace yadl
 {
+    Canvas::Canvas()
+        : m_width{0}
+        , m_height{0}
+        , m_pixelStride{0}
+        , m_pixels{nullptr}
+        {}
+
+
     Canvas::Canvas(int32_t width, int32_t height)
-        : m_width(width), m_height(height), m_pixelStride(width)
+        : m_width{width}
+        , m_height{height}
+        , m_pixelStride{width}
+        , m_pixels{std::shared_ptr<Pixel[]>(new Pixel[width * height])}
+        {}
+
+    Canvas::Canvas(const Canvas& other)
+        : m_width{other.m_width}
+        , m_height{other.m_height}
+        , m_pixelStride{other.m_pixelStride}
+        , m_pixels{other.m_pixels}
+        {}
+    
+    Canvas& Canvas::operator=(const Canvas& other)
     {
-        m_pixels = std::make_unique<Pixel[]>(width * height);
+        m_width = other.m_width;
+        m_height = other.m_height;
+        m_pixelStride = other.m_pixelStride;
+        m_pixels = other.m_pixels;
+        return *this;
     }
+
+    Canvas::Canvas(Canvas&& other) noexcept
+        : m_width{other.m_width}
+        , m_height{other.m_height}
+        , m_pixelStride{other.m_pixelStride}
+        , m_pixels{other.m_pixels}
+        {}
+
+    Canvas& Canvas::operator=(Canvas&& other) noexcept
+    {
+        m_width = other.m_width;
+        m_height = other.m_height;
+        m_pixelStride = other.m_pixelStride;
+        m_pixels = other.m_pixels;
+        return *this;
+    }
+    
+
+
 
     Canvas::Canvas(const std::string &filename)
     {
@@ -27,6 +72,8 @@ namespace yadl
         if (!success)
             throw std::runtime_error("Failed to load image");
     }
+
+
 
     bool Canvas::Save(const std::string &filename, FileFormat fileformat) const
     {
@@ -40,7 +87,6 @@ namespace yadl
             PPM::Save(filename, m_width, m_height, GetBytes(), GetByteStride());
             return true;
             break;
-        // TODO: Implement PPM with stride support
 
         // case FileFormat::JPG:
         //     stbi_write_jpg(filename.c_str(), m_width, m_height, 4, m_pixels.get(), 100);
@@ -69,17 +115,20 @@ namespace yadl
 
         m_pixelStride = m_width;
 
-        m_pixels = std::make_unique<Pixel[]>(m_width * m_height);
+        m_pixels = std::make_shared<Pixel[]>(m_width * m_height);
         std::memcpy(m_pixels.get(), data.get(), m_width * m_height * sizeof(Pixel));
 
         return true;
     }
-
     void Canvas::Clear(Pixel pixel)
     {
         for (int32_t y = 0; y < m_height; y++)
+        {
             for (int32_t x = 0; x < m_width; x++)
+            {
                 SetPixel(x, y, pixel);
+            }
+        }
     }
 
     Canvas Canvas::SubCanvas(int32_t x, int32_t y, int32_t width, int32_t height) const
