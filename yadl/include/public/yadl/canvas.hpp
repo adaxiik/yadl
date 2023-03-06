@@ -34,13 +34,20 @@ namespace yadl
         inline int32_t GetPixelStride() const { return m_pixelStride; }
 
         inline Pixel GetPixel(int32_t x, int32_t y) const { return m_pixels[y  * m_pixelStride + x]; }
-
         inline void SetPixel(int32_t x, int32_t y, Pixel pixel) { m_pixels[y  * m_pixelStride + x] = pixel; }
+        inline Pixel& RefPixel(int32_t x, int32_t y) { return m_pixels[y  * m_pixelStride + x]; }
 
         inline uint8_t* GetBytes() const { return reinterpret_cast<uint8_t*>(m_pixels.get()); }
 
-        void Clear(Pixel pixel);
+        Canvas& Clear(Pixel pixel);
         Canvas SubCanvas(int32_t x, int32_t y, int32_t width, int32_t height) const;
-
+        Canvas DeepCopy();
+        Canvas Resize(int32_t width, int32_t height) const;
+        inline Canvas Resize(float widthFactor, float heightFactor) const 
+        { 
+            return Resize(static_cast<int32_t>(m_width * widthFactor), static_cast<int32_t>(m_height * heightFactor));
+        }
+        inline Canvas Resize(int32_t size) const { return Resize(size, size); }
+        inline Canvas Resize(float factor) const { return Resize(factor, factor); }
     };
 }

@@ -14,5 +14,6 @@ namespace yadl
       constexpr Pixel Yellow = Pixel(255, 255, 0, 255);
       constexpr Pixel Cyan = Pixel(0, 255, 255, 255);
       constexpr Pixel Magenta = Pixel(255, 0, 255, 255);
+      constexpr Pixel Transparent = Pixel(0, 0, 0, 0);
    }
 }

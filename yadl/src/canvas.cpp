@@ -1,18 +1,11 @@
 #include "canvas.hpp"
 
-#include <cstring>
 #include <string>
 #include <stdexcept>
 #include <algorithm>
 #include <iostream>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "3rdparty/stb_image.h"
-
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "3rdparty/stb_image_write.h"
-
-#include "ppm.hpp"
+#include "io.hpp"
 
 namespace yadl
 {
@@ -80,11 +73,15 @@ namespace yadl
         switch (fileformat)
         {
         case FileFormat::PNG:
-            stbi_write_png(filename.c_str(), m_width, m_height, 4, m_pixels.get(), m_pixelStride * sizeof(Pixel));
+            io::SaveAsPNG(filename, m_width, m_height, GetBytes(), GetByteStride());
             return true;
             break;
-        case FileFormat::PPM:
-            PPM::Save(filename, m_width, m_height, GetBytes(), GetByteStride());
+        case FileFormat::PPM6:
+            io::SaveAsPPM6(filename, m_width, m_height, GetBytes(), GetByteStride());
+            return true;
+            break;
+        case FileFormat::PPM3:
+            // io::SaveAsPPM3(filename, m_width, m_height, GetBytes(), GetByteStride());
             return true;
             break;
 
@@ -110,25 +107,22 @@ namespace yadl
 
     bool Canvas::Load(const std::string &filename)
     {
-        int32_t channels;
-        std::unique_ptr<uint8_t[], decltype(&stbi_image_free)> data(stbi_load(filename.c_str(), &m_width, &m_height, &channels, 4), stbi_image_free);
 
+        m_pixels = io::Load(filename, m_width, m_height);
+        if (m_pixels == nullptr)
+            return false;
         m_pixelStride = m_width;
-
-        m_pixels = std::make_shared<Pixel[]>(m_width * m_height);
-        std::memcpy(m_pixels.get(), data.get(), m_width * m_height * sizeof(Pixel));
 
         return true;
     }
-    void Canvas::Clear(Pixel pixel)
+    
+    Canvas& Canvas::Clear(Pixel pixel)
     {
         for (int32_t y = 0; y < m_height; y++)
-        {
             for (int32_t x = 0; x < m_width; x++)
-            {
                 SetPixel(x, y, pixel);
-            }
-        }
+
+        return *this;
     }
 
     Canvas Canvas::SubCanvas(int32_t x, int32_t y, int32_t width, int32_t height) const
@@ -150,4 +144,24 @@ namespace yadl
     Canvas::~Canvas()
     {
     }
+
+    Canvas Canvas::DeepCopy()
+    {
+        Canvas c(m_width, m_height);
+        for (int32_t y = 0; y < m_height; y++)
+            for (int32_t x = 0; x < m_width; x++)
+                c.SetPixel(x, y, GetPixel(x, y));
+        return c;
+    }
+
+    Canvas Canvas::Resize(int32_t width, int32_t height) const
+    {
+        Canvas c(width, height);
+        for (int32_t y = 0; y < height; y++)
+            for (int32_t x = 0; x < width; x++)
+                c.SetPixel(x, y, GetPixel(x * m_width / width, y * m_height / height));
+        return c;
+    }
+
+
 }

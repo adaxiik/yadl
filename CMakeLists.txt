@@ -15,4 +15,4 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
 
 add_subdirectory(yadl)
-add_subdirectory(tests)
+add_subdirectory(examples)
