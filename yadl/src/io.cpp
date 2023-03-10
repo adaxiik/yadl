@@ -37,6 +37,30 @@ namespace yadl
             return true;
         }
 
+        bool SaveAsPPM3(const std::string &filename, int32_t width, int32_t height, const uint8_t *pixels, int32_t byteStride)
+        {
+            std::ofstream file(filename);
+            if (!file.is_open())
+                return false;
+
+            file << "P3\n"
+                 << std::to_string(width) << " " << std::to_string(height) << "\n255\n";
+            
+            for (int32_t y = 0; y < height; y++)
+            {
+                for (int32_t x = 0; x < width; x++)
+                {
+                    file << std::to_string(pixels[y * byteStride + x * 4 + 0]) << " "; // R
+                    file << std::to_string(pixels[y * byteStride + x * 4 + 1]) << " "; // G
+                    file << std::to_string(pixels[y * byteStride + x * 4 + 2]) << " "; // B
+                }
+                file << "\n";
+            }
+
+            file.close();
+            return true;
+        }
+
         bool SaveAsPNG(const std::string &filename, int32_t width, int32_t height, const uint8_t *pixels, int32_t byteStride)
         {
             return stbi_write_png(filename.c_str(), width, height, 4, pixels, byteStride) != 0;

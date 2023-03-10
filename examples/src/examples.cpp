@@ -159,15 +159,16 @@ int main(int argc, char const *argv[])
 {
     (void)argc;
     (void)argv;
-    YADL_PERF_START(ALL_EXAMPLES);
-    example_subcanvas("subcanvas.png");
-    example_subcanvas2("subcanvas2.png");
-    example_load("load.png", "assets/cat.png");
-    example_deepcopy("deepcopy_original.png", "deepcopy_subcanvas.png");
-    example_resize("resizeWH.png", "resizeFactor.png", "assets/cat.png");
-    example_shape_actions("action_blend.png", "action_add.png", "action_sub.png", "action_set.png");
-    example_thickness("thickness.png");
-    YADL_PERF_END(ALL_EXAMPLES);
+    // YADL_PERF_START(ALL_EXAMPLES);
+    // example_subcanvas("subcanvas.png");
+    // example_subcanvas2("subcanvas2.png");
+    // example_load("load.png", "assets/cat.png");
+    // example_deepcopy("deepcopy_original.png", "deepcopy_subcanvas.png");
+    // example_resize("resizeWH.png", "resizeFactor.png", "assets/cat.png");
+    // example_shape_actions("action_blend.png", "action_add.png", "action_sub.png", "action_set.png");
+    // example_thickness("thickness.png");
+    // YADL_PERF_END(ALL_EXAMPLES);
+
 
     // // shapes::Circle(canvas, 100, 100, 50, color);
     // // shapes::FilledRectangle(canvas, 0, 0, 100, 100, {0, 255, 0, 255});

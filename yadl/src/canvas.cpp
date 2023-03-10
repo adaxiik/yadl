@@ -133,7 +133,7 @@ namespace yadl
             return true;
             break;
         case FileFormat::PPM3:
-            // io::SaveAsPPM3(filename, m_width, m_height, GetBytes(), GetByteStride());
+            io::SaveAsPPM3(filename, m_width, m_height, GetBytes(), GetByteStride());
             return true;
             break;
 
