@@ -7,6 +7,11 @@
 
 #include "io.hpp"
 
+#ifdef YADL_DEBUG
+    #define YADL_LOGGER_SETTINGS_LEVEL YADL_LOGGER_LEVEL_INFO
+    #include "debug.hpp"
+#endif
+
 namespace yadl
 {
     Canvas::Canvas()
@@ -65,6 +70,53 @@ namespace yadl
         if (!success)
             throw std::runtime_error("Failed to load image");
     }
+
+    Pixel Canvas::GetPixel(int32_t x, int32_t y) const
+    {
+        #ifdef YADL_SAFE_PIXEL_ACCESS
+            if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+            {
+                #ifdef YADL_DEBUG
+                    YADL_LOG_DEBUG("Pixel out of bounds: (%d, %d)" , x, y);
+                #endif
+                x = std::clamp(x, 0, m_width - 1);
+                y = std::clamp(y, 0, m_height - 1);
+            }
+        #endif
+        return m_pixels[y  * m_pixelStride + x];
+    }
+
+    void Canvas::SetPixel(int32_t x, int32_t y, Pixel pixel)
+    {
+        #ifdef YADL_SAFE_PIXEL_ACCESS
+            if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+            {
+                #ifdef YADL_DEBUG                           
+                    YADL_LOG_DEBUG("Pixel out of bounds: (%d, %d)" , x, y);
+                #endif
+                x = std::clamp(x, 0, m_width - 1);
+                y = std::clamp(y, 0, m_height - 1);
+            }
+        #endif
+        m_pixels[y * m_pixelStride + x] = pixel;
+    }
+
+    Pixel& Canvas::RefPixel(int32_t x, int32_t y)
+    {
+        #ifdef YADL_SAFE_PIXEL_ACCESS
+            if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+            {
+                #ifdef YADL_DEBUG                        
+                    YADL_LOG_DEBUG("Pixel out of bounds: (%d, %d)" , x, y);
+                #endif
+                x = std::clamp(x, 0, m_width - 1);
+                y = std::clamp(y, 0, m_height - 1);
+            }
+        #endif
+        return m_pixels[y * m_pixelStride + x];
+    }
+
+    
 
 
 

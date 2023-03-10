@@ -1,11 +1,15 @@
 #include <iostream>
+#include <cmath>
 
 #include <yadl/canvas.hpp>
 #include <yadl/color.hpp>
 #include <yadl/shape.hpp>
+#include <yadl/debug.hpp>
 
 void example_subcanvas(const std::string &outputFilename)
 {
+    YADL_FUNCTION_PERF(std::cout);
+
     using namespace yadl;
 
     Canvas canvas(50, 50);
@@ -23,6 +27,8 @@ void example_subcanvas(const std::string &outputFilename)
 
 void example_subcanvas2(const std::string &outputFilename)
 {
+    YADL_FUNCTION_PERF(std::cout);
+
     using namespace yadl;
     constexpr int width = 512;
     constexpr int height = 512;
@@ -41,6 +47,8 @@ void example_subcanvas2(const std::string &outputFilename)
 
 void example_load(const std::string &outputFilename, const std::string &inputFilename)
 {
+    YADL_FUNCTION_PERF(std::cout);
+
     using namespace yadl;
 
     Canvas canvas(inputFilename);
@@ -53,6 +61,8 @@ void example_load(const std::string &outputFilename, const std::string &inputFil
 
 void example_deepcopy(const std::string &outputOriginal, const std::string &outputSubCanvas)
 {
+    YADL_FUNCTION_PERF(std::cout);
+
     using namespace yadl;
 
     Canvas canvas(50, 50);
@@ -68,6 +78,8 @@ void example_deepcopy(const std::string &outputOriginal, const std::string &outp
 
 void example_resize(const std::string &outputWH, const std::string &outputFactor, const std::string &inputFilename)
 {
+    YADL_FUNCTION_PERF(std::cout);
+
     using namespace yadl;
 
     Canvas canvas(inputFilename);
@@ -79,6 +91,8 @@ void example_resize(const std::string &outputWH, const std::string &outputFactor
 
 void example_shape_actions(const std::string &outputBlend, const std::string &outputAdd, const std::string &outputSub, const std::string &outputSet)
 {
+    YADL_FUNCTION_PERF(std::cout);
+
     using namespace yadl;
 
     Canvas original(50, 50);
@@ -95,7 +109,7 @@ void example_shape_actions(const std::string &outputBlend, const std::string &ou
     Shape::Get().SetCanvas(add).SetAction(Shape::Action::Add);
     Shape::Get().DrawFilledRectangle(25, 25);
     add.Save(outputAdd, FileFormat::PNG);
-
+    
     auto set = original.DeepCopy();
     Shape::Get().SetCanvas(set).SetAction(Shape::Action::Set);
     Shape::Get().DrawFilledRectangle(25, 25);
@@ -105,20 +119,55 @@ void example_shape_actions(const std::string &outputBlend, const std::string &ou
     Shape::Get().SetCanvas(sub).SetAction(Shape::Action::Sub).SetColor(Pixel(50, 0, 255, 0));
     Shape::Get().DrawFilledRectangle(25, 25);
     sub.Save(outputSub, FileFormat::PNG);
+    Shape::Get().SetAction(Shape::Action::Set);
     
+}
+
+void example_thickness(const std::string &outputFilename)
+{
+    YADL_FUNCTION_PERF(std::cout);
+    using namespace yadl;
+
+    Canvas canvas(200, 200);
+    canvas.Clear(Color::Dark);
+
+    Shape::Get().SetCanvas(canvas).SetColor(Color::Red).SetThickness(1);
+    Shape::Get().SetPosition(canvas.GetCenterX(), canvas.GetCenterY());
+    Shape::Get().SetThickness(2).SetColor(Color::Black);
+    
+    for (int i = 0; i < 9; i++)
+        Shape::Get().DrawCircle(10 + i * 10);
+
+    Shape::Get().SetPosition(60,140).SetColor(Color::Red).DrawFilledCircle(15);
+
+
+    Shape::Get().SetPosition(canvas.GetCenterX(), canvas.GetCenterY());
+    Shape::Get().SetColor(Color::Blue).DrawLine(0,0);
+
+    Shape::Get().SetThickness(5).DrawLine(canvas.GetWidth(), 0);
+
+    Shape::Get().SetThickness(3).SetColor(Color::Green).SetPosition(20,20).DrawRectangle(160,160);
+    Shape::Get().SetThickness(1).SetColor(Color::Yellow).SetPosition(40,40).DrawRectangle(120,120);
+
+   
+
+
+    canvas.Save(outputFilename, FileFormat::PNG);
 }
 
 int main(int argc, char const *argv[])
 {
     (void)argc;
     (void)argv;
-    // example_subcanvas("subcanvas.png");
-    // example_subcanvas2("subcanvas2.png");
-    // example_load("load.png", "assets/cat.png");
-    // example_deepcopy("deepcopy_original.png", "deepcopy_subcanvas.png");
-    // example_resize("resizeWH.png", "resizeFactor.png", "assets/cat.png");
+    YADL_PERF_START(ALL_EXAMPLES);
+    example_subcanvas("subcanvas.png");
+    example_subcanvas2("subcanvas2.png");
+    example_load("load.png", "assets/cat.png");
+    example_deepcopy("deepcopy_original.png", "deepcopy_subcanvas.png");
+    example_resize("resizeWH.png", "resizeFactor.png", "assets/cat.png");
     example_shape_actions("action_blend.png", "action_add.png", "action_sub.png", "action_set.png");
-
+    example_thickness("thickness.png");
+    YADL_PERF_END(ALL_EXAMPLES);
 
     // // shapes::Circle(canvas, 100, 100, 50, color);
     // // shapes::FilledRectangle(canvas, 0, 0, 100, 100, {0, 255, 0, 255});

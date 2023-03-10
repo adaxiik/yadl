@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <memory>
+#include <functional>
 
 #include "canvas.hpp"
 #include "pixel.hpp"
@@ -19,7 +20,7 @@ namespace yadl
         ~Shape() = default;
 
         Pixel m_color{0, 0, 0, 255};
-        size_t m_thicness{1};
+        int32_t m_thickness{1};
         int32_t m_positionX{0};
         int32_t m_positionY{0};
         Canvas m_canvas{};
@@ -34,8 +35,10 @@ namespace yadl
 
     public:
         Shape& DrawFilledRectangle(int32_t width, int32_t height);
+        Shape& DrawRectangle(int32_t width, int32_t height);
         Shape& DrawFilledCircle(int32_t radius);
-
+        Shape& DrawCircle(int32_t radius);
+        Shape& DrawLine(int32_t x, int32_t y);
 
         inline static Shape &Get()
         {
@@ -49,9 +52,9 @@ namespace yadl
             return *this;
         }
 
-        inline Shape &SetThicness(size_t thicness)
+        inline Shape &SetThickness(size_t thickness)
         {
-            m_thicness = thicness;
+            m_thickness = thickness;
             return *this;
         }
 

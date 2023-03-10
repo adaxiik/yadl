@@ -32,10 +32,14 @@ namespace yadl
         inline int32_t GetHeight() const { return m_height; }
         inline int32_t GetByteStride() const { return m_pixelStride * sizeof(Pixel); }
         inline int32_t GetPixelStride() const { return m_pixelStride; }
+        inline int32_t GetPixelCount() const { return m_width * m_height; }
+        inline int32_t GetCenterX() const { return m_width / 2; }
+        inline int32_t GetCenterY() const { return m_height / 2; }
 
-        inline Pixel GetPixel(int32_t x, int32_t y) const { return m_pixels[y  * m_pixelStride + x]; }
-        inline void SetPixel(int32_t x, int32_t y, Pixel pixel) { m_pixels[y  * m_pixelStride + x] = pixel; }
-        inline Pixel& RefPixel(int32_t x, int32_t y) { return m_pixels[y  * m_pixelStride + x]; }
+        Pixel GetPixel(int32_t x, int32_t y) const ;
+        void SetPixel(int32_t x, int32_t y, Pixel pixel);
+        Pixel& RefPixel(int32_t x, int32_t y);
+
 
         inline uint8_t* GetBytes() const { return reinterpret_cast<uint8_t*>(m_pixels.get()); }
 
