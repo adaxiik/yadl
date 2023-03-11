@@ -4,10 +4,10 @@ set -xe
 
 # rm *.png
 
-if [ -e *.png ]; then
+if ls *.png 1> /dev/null 2>&1; then
     rm *.png
 fi
 
-if [ -e *.ppm ]; then
+if ls *.ppm 1> /dev/null 2>&1; then
     rm *.ppm
 fi

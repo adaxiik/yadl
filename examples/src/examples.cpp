@@ -2,9 +2,10 @@
 #include <cmath>
 
 #include <yadl/canvas.hpp>
-#include <yadl/color.hpp>
 #include <yadl/shape.hpp>
 #include <yadl/debug.hpp>
+#include <yadl/text.hpp>
+#include <yadl/font.hpp>
 
 void example_subcanvas(const std::string &outputFilename)
 {
@@ -149,47 +150,25 @@ void example_thickness(const std::string &outputFilename)
     Shape::Get().SetThickness(3).SetColor(Color::Green).SetPosition(20,20).DrawRectangle(160,160);
     Shape::Get().SetThickness(1).SetColor(Color::Yellow).SetPosition(40,40).DrawRectangle(120,120);
 
-   
-
 
     canvas.Save(outputFilename, FileFormat::PNG);
 }
 
-int main(int argc, char const *argv[])
+void example_text(const std::string &outputFilename)
 {
-    (void)argc;
-    (void)argv;
-    // YADL_PERF_START(ALL_EXAMPLES);
-    // example_subcanvas("subcanvas.png");
-    // example_subcanvas2("subcanvas2.png");
-    // example_load("load.png", "assets/cat.png");
-    // example_deepcopy("deepcopy_original.png", "deepcopy_subcanvas.png");
-    // example_resize("resizeWH.png", "resizeFactor.png", "assets/cat.png");
-    // example_shape_actions("action_blend.png", "action_add.png", "action_sub.png", "action_set.png");
-    // example_thickness("thickness.png");
-    // YADL_PERF_END(ALL_EXAMPLES);
-
-
-    // // shapes::Circle(canvas, 100, 100, 50, color);
-    // // shapes::FilledRectangle(canvas, 0, 0, 100, 100, {0, 255, 0, 255});
-    // // shapes::Line(canvas, 50, 50, 100, 100, {0, 0, 255, 255});
+    YADL_FUNCTION_PERF(std::cout);
     using namespace yadl;
 
+    Canvas canvas(300, 100);
+    canvas.Clear(Color::Dark);
 
-    // Shapes::Get()
-    //     .SetColor(color)
-    //     .SetPosition(100, 100)
-    //     .DrawCircle(50);
+    Font font("assets/RobotoCondensed-Regular.ttf");
+    Text::Get().SetCanvas(canvas).SetFont(font).SetColor(Color::White).SetPosition(20, 42);
+    Text::Get().DrawText("I hate text");
+    Text::Get().SetPosition(20, 42+42);
+    Text::Get().DrawText("rendering :c");
 
-    // Shapes::Get()
-    //     .SetPosition(0, 0)
-    //     .SetColor({0, 255, 0, 255})
-    //     .DrawFilledRectangle(100, 100);
-
-    // Shapes::Get()
-    //     .SetColor({0, 0, 255, 255})
-    //     .SetPosition(50, 50)
-    //     .DrawLine(100, 100);
+    // text::DrawText(canvas, font, "Hello World
 
     // Font font = Font("test.ttf", 12);
     // // text::DrawText(canvas, font, "Hello World!", 0, 0, Color::Black);
@@ -199,6 +178,29 @@ int main(int argc, char const *argv[])
     //     .SetColor(Color::Black)
     //     .SetPosition(0, 0)
     //     .DrawText("Hello World!");
+
+    canvas.Save(outputFilename, FileFormat::PNG);
+}
+
+int main(int argc, char const *argv[])
+{
+    (void)argc;
+    (void)argv;
+    YADL_PERF_START(ALL_EXAMPLES);
+    // example_subcanvas("subcanvas.png");
+    // example_subcanvas2("subcanvas2.png");
+    // example_load("load.png", "assets/cat.png");
+    // example_deepcopy("deepcopy_original.png", "deepcopy_subcanvas.png");
+    // example_resize("resizeWH.png", "resizeFactor.png", "assets/cat.png");
+    // example_shape_actions("action_blend.png", "action_add.png", "action_sub.png", "action_set.png");
+    // example_thickness("thickness.png");
+    example_text("text.png");
+    YADL_PERF_END(ALL_EXAMPLES);
+
+
+    using namespace yadl;
+
+    
 
     // Canvas tex("texture.png", ImageFormat::PNG);
     // tex.Resize(50, 50);

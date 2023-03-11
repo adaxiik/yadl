@@ -71,6 +71,17 @@ namespace yadl
             return *this;
         }
 
+        inline Shape& Reset()
+        {
+            m_color = {0, 0, 0, 255};
+            m_thickness = 1;
+            m_positionX = 0;
+            m_positionY = 0;
+            m_canvas = {};
+            m_action = m_set;
+            return *this;
+        }
+        
         enum class Action
         {
             Blend,
