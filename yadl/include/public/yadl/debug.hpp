@@ -80,6 +80,13 @@
 #define YADL_LOG_ERROR(fmt,...) YADL_LOGGER_LOG(YADL_LOGGER_OUTPUT_STDERR, YADL_LOGGER_LEVEL_ERROR, fmt, ##__VA_ARGS__)
 #define YADL_LOG_FATAL(fmt,...) YADL_LOGGER_LOG(YADL_LOGGER_OUTPUT_STDERR, YADL_LOGGER_LEVEL_FATAL, fmt, ##__VA_ARGS__); exit(1)
 
+#define YADL_LOG_FATAL_IF(condition, fmt, ...) do { \
+    if (condition) { \
+        YADL_LOG_FATAL(fmt, ##__VA_ARGS__); \
+    } \
+    } while (0)
+
+
 #ifdef __cplusplus
     #define YADL_WATCH(variable) do { \
         YADL_LOG_DEBUG(#variable " = %s (%s:%d)", std::to_string(variable).c_str(), __FILE__, __LINE__); \

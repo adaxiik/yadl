@@ -1,8 +1,23 @@
-file(GLOB TEST_SOURCES "src/*.cpp")
+#imgui
+file(GLOB IMGUI_SRC "sdl_examples/sdl_core/3rparty/imgui/*.cpp")
+file(GLOB IMGUI_BACKENDS_SRC "sdl_examples/sdl_core/3rparty/imgui/backends/*.cpp")
+set(IMGUI_SRC ${IMGUI_SRC} ${IMGUI_BACKENDS_SRC})
+file(GLOB IMGUI_HEADERS "sdl_examples/sdl_core/3rparty/imgui/*.h")
 
-add_executable(run_examples ${TEST_SOURCES})
+add_library(imgui STATIC ${IMGUI_SRC} ${IMGUI_HEADERS})
+target_include_directories(imgui PUBLIC "sdl_examples/sdl_core/3rparty/imgui")
 
-target_link_libraries(run_examples yadl m)
+
+# classic examples
+add_executable(classic_examples "classic_examples/examples.cpp")
+target_link_libraries(classic_examples yadl m)
+
+# sdl examples
+add_executable(circle_example "sdl_examples/circle_example.cpp")
+target_include_directories(circle_example PUBLIC "sdl_examples/sdl_core/3rparty/imgui")
+target_link_libraries(circle_example yadl m SDL2)
+target_link_libraries(circle_example imgui)
+
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${OUTPUT_DIR})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/clean_generated_examples.sh DESTINATION ${OUTPUT_DIR})

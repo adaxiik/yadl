@@ -60,6 +60,14 @@ namespace yadl
             return *this;
         }
 
+        inline int32_t GetCurrentTextHeight() const
+        {
+            return 42 * m_scale; // magic constant :) 
+            // TODO: replace 42, with less magic constant 
+            // font is loaded with 42 as height
+            // @see font_internal.cpp
+        }
+
         Text &DrawText(const std::string &text);
     };
 }

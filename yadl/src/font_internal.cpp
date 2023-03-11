@@ -14,6 +14,7 @@ namespace yadl
 
     FontInternal::FontInternal(const std::string &path) : FontInternal()
     {
+        // https://learnopengl.com/In-Practice/Text-Rendering
         FT_Error error = FT_New_Face(m_library, path.c_str(), 0, &m_face);
 
         if (error == FT_Err_Unknown_File_Format)
