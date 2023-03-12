@@ -112,13 +112,26 @@ public:
 
         SDL_Quit();
     }
+    SDLCore(const SDLCore&) = delete;
+    SDLCore(SDLCore&&) = delete;
+    SDLCore& operator=(const SDLCore&) = delete;
+    SDLCore& operator=(SDLCore&&) = delete;
 
     void Start()
     {
         Run();
     }
 
-    virtual void OnUpdate(double deltaTime) = 0;
-    virtual void OnRender(double deltaTime) = 0;
-    virtual void OnImGuiRender(double deltaTime) = 0;
+    virtual void OnUpdate(double deltaTime) 
+    {
+        (void) deltaTime;
+    };
+    virtual void OnRender(double deltaTime) 
+    {
+        (void) deltaTime;
+    };
+    virtual void OnImGuiRender(double deltaTime) 
+    {
+        (void) deltaTime;
+    };
 };

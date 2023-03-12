@@ -13,11 +13,8 @@ private:
     int32_t m_centerDistanceX{70};
     int32_t m_centerDistanceY{70};
     float m_color[4]{1.0f, 0.0f, 0.0f, 1.0f};
+    bool m_filled{true};
     
-
-    virtual void OnUpdate(double deltaTime)
-    {
-    }    
     virtual void OnRender(double deltaTime)
     {
         static double time = 0;
@@ -33,17 +30,22 @@ private:
         int32_t x = centerX + std::cos(time) * m_centerDistanceX;
         int32_t y = centerY + std::sin(time) * m_centerDistanceY;
 
-        Shape::Get().SetPosition(x, y).DrawFilledCircle(m_radius);
+        Shape::Get().SetPosition(x, y);
+        if (m_filled)
+            Shape::Get().DrawFilledCircle(m_radius);
+        else
+            Shape::Get().DrawCircle(m_radius);
 
     }
     virtual void OnImGuiRender(double deltaTime)
     {
         ImGui::Begin("Circle Example");
         ImGui::Text("FPS: %.2f", 1.0 / deltaTime);
-        ImGui::SliderInt("Radius", &m_radius, 1, 100);
+        ImGui::SliderInt("Radius", &m_radius, 1, 125);
         ImGui::SliderInt("Center Distance X", &m_centerDistanceX, 1, 100);
         ImGui::SliderInt("Center Distance Y", &m_centerDistanceY, 1, 100);
         ImGui::ColorEdit4("Color", m_color);
+        ImGui::Checkbox("Filled", &m_filled);
         ImGui::End();
     }
 public:

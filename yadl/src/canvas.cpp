@@ -8,7 +8,9 @@
 #include "io.hpp"
 
 #ifdef YADL_DEBUG
-    #define YADL_LOGGER_SETTINGS_LEVEL YADL_LOGGER_LEVEL_INFO
+    #ifndef YADL_LOGGER_SETTINGS_LEVEL
+        #define YADL_LOGGER_SETTINGS_LEVEL YADL_LOGGER_LEVEL_INFO
+    #endif
     #include "debug.hpp"
 #endif
 

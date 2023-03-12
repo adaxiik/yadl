@@ -17,6 +17,13 @@ namespace yadl
                 continue;
             }
 
+            if(c == '\n')
+            {
+                x = m_positionX;
+                y += GetCurrentTextHeight();
+                continue;
+            }
+
             Canvas charCanvas = m_font.m_internal->GetCharCanvas(c);
             const auto& metrics = m_font.m_internal->GetGlyphMetrics(c);
 
@@ -30,15 +37,15 @@ namespace yadl
                     Pixel charPixel = charCanvas.GetPixel(i, j);
                     if(charPixel.a > 0)
                     {
-                        Pixel& canvasPixel = m_canvas.RefPixel(x + i - static_cast<int32_t>(metrics.m_bearingX * m_scale)
-                                                             , y + j - static_cast<int32_t>(metrics.m_bearingY * m_scale));
+                        Pixel& canvasPixel = m_canvas.RefPixel(x + i - static_cast<int32_t>(metrics.bearingX * m_scale)
+                                                             , y + j - static_cast<int32_t>(metrics.bearingY * m_scale));
                         Pixel targetColor = m_color;
                         targetColor *= charPixel;
                         canvasPixel = targetColor;
                     } 
                 }
             }
-            x += static_cast<int32_t>((metrics.m_width + metrics.m_bearingX) * m_scale);
+            x += static_cast<int32_t>((metrics.width + metrics.bearingX) * m_scale);
 
         }
 

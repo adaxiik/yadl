@@ -164,20 +164,7 @@ void example_text(const std::string &outputFilename)
 
     Font font("assets/RobotoCondensed-Regular.ttf");
     Text::Get().SetCanvas(canvas).SetFont(font).SetColor(Color::White).SetPosition(20, 42);
-    Text::Get().DrawText("I hate text");
-    Text::Get().SetPosition(20, 42+42);
-    Text::Get().DrawText("rendering :c");
-
-    // text::DrawText(canvas, font, "Hello World
-
-    // Font font = Font("test.ttf", 12);
-    // // text::DrawText(canvas, font, "Hello World!", 0, 0, Color::Black);
-    // Text::Get()
-    //     .SetCanvas(canvas)
-    //     .SetFont(font)
-    //     .SetColor(Color::Black)
-    //     .SetPosition(0, 0)
-    //     .DrawText("Hello World!");
+    Text::Get().DrawText("I hate text\nrendering :c");
 
     canvas.Save(outputFilename, FileFormat::PNG);
 }
@@ -187,21 +174,17 @@ int main(int argc, char const *argv[])
     (void)argc;
     (void)argv;
     YADL_PERF_START(ALL_EXAMPLES);
-    // example_subcanvas("subcanvas.png");
-    // example_subcanvas2("subcanvas2.png");
-    // example_load("load.png", "assets/cat.png");
-    // example_deepcopy("deepcopy_original.png", "deepcopy_subcanvas.png");
-    // example_resize("resizeWH.png", "resizeFactor.png", "assets/cat.png");
-    // example_shape_actions("action_blend.png", "action_add.png", "action_sub.png", "action_set.png");
-    // example_thickness("thickness.png");
+    example_subcanvas("subcanvas.png");
+    example_subcanvas2("subcanvas2.png");
+    example_load("load.png", "assets/cat.png");
+    example_deepcopy("deepcopy_original.png", "deepcopy_subcanvas.png");
+    example_resize("resizeWH.png", "resizeFactor.png", "assets/cat.png");
+    example_shape_actions("action_blend.png", "action_add.png", "action_sub.png", "action_set.png");
+    example_thickness("thickness.png");
     example_text("text.png");
     YADL_PERF_END(ALL_EXAMPLES);
-
-
-    using namespace yadl;
-
     
-
+    // TODOOO:
     // Canvas tex("texture.png", ImageFormat::PNG);
     // tex.Resize(50, 50);
     // textures::DrawTexture(canvas, tex, 0, 0);

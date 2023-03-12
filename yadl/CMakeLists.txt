@@ -15,7 +15,7 @@ target_include_directories(yadl PRIVATE "${FREETYPE_INCLUDE_DIRS}")
 target_include_directories(yadl PRIVATE "${YADL_INCLUDE_PUBLIC}/yadl")
 target_include_directories(yadl PRIVATE "${YADL_INCLUDE_PRIVATE}")
 
-target_link_libraries(yadl PRIVATE "${FREETYPE_LIBRARIES}")
+target_link_libraries(yadl PRIVATE "${FREETYPE_LIBRARIES}") # todo: static linking
 
 
 target_include_directories(yadl PUBLIC "${YADL_INCLUDE_PUBLIC}")

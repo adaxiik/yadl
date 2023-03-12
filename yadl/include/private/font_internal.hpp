@@ -28,11 +28,11 @@ namespace yadl
         ~FontInternal();
         struct GlyphMetrics
         {
-            FT_UInt m_width;
-            FT_UInt m_height;
-            FT_Int m_bearingX;
-            FT_Int m_bearingY;
-            FT_UInt m_advance;
+            FT_UInt width;
+            FT_UInt height;
+            FT_Int bearingX;
+            FT_Int bearingY;
+            FT_UInt advance;
         };
 
         const Canvas &GetCharCanvas(char c) const;
@@ -43,7 +43,7 @@ namespace yadl
         {
             FT_UInt m_atlasWidth;
             FT_UInt m_atlasHeight;
-            GlyphMetrics m_glyphMetrics[m_glyphMetricsCapacity] = {};
+            GlyphMetrics m_glyphMetrics[m_glyphMetricsCapacity] = {}; // todo: unify map or array usage
         };
         GlyphAtlas m_glyphAtlas{};
 

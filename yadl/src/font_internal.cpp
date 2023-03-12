@@ -68,11 +68,11 @@ namespace yadl
             atlasOffset -= m_glyphAtlas.m_atlasWidth * bitmap->rows;
             atlasOffset += bitmap->width;
 
-            m_glyphAtlas.m_glyphMetrics[i].m_width = bitmap->width;
-            m_glyphAtlas.m_glyphMetrics[i].m_height = bitmap->rows;
-            m_glyphAtlas.m_glyphMetrics[i].m_bearingX = m_face->glyph->bitmap_left;
-            m_glyphAtlas.m_glyphMetrics[i].m_bearingY = m_face->glyph->bitmap_top;
-            m_glyphAtlas.m_glyphMetrics[i].m_advance = m_face->glyph->advance.x / 64;
+            m_glyphAtlas.m_glyphMetrics[i].width = bitmap->width;
+            m_glyphAtlas.m_glyphMetrics[i].height = bitmap->rows;
+            m_glyphAtlas.m_glyphMetrics[i].bearingX = m_face->glyph->bitmap_left;
+            m_glyphAtlas.m_glyphMetrics[i].bearingY = m_face->glyph->bitmap_top;
+            m_glyphAtlas.m_glyphMetrics[i].advance = m_face->glyph->advance.x / 64;
 
         }
 
