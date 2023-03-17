@@ -6,6 +6,16 @@
 #include <yadl/debug.hpp>
 #include <yadl/text.hpp>
 #include <yadl/font.hpp>
+#include <yadl/io.hpp>
+#include <yadl/context.hpp>
+
+void asserts()
+{
+    static_assert(sizeof(yadl::Pixel) == 4, "Pixel size is not 4 bytes");
+    static_assert(yadl::Pixel(1,2,3,4) == yadl::Pixel::RGBA(1,2,3,4), "Pixel comparison failed");
+    static_assert(yadl::Pixel(0x04030201) == yadl::Pixel::RGBA(1,2,3,4), "Pixel comparison failed");
+    static_assert(yadl::Pixel(0,2,3,4) != yadl::Pixel::RGBA(1,2,3,4), "Pixel comparison failed");
+}
 
 void example_subcanvas(const std::string &outputFilename)
 {
@@ -23,7 +33,7 @@ void example_subcanvas(const std::string &outputFilename)
     auto subsubCanvas = subCanvas.SubCanvas(2, 2, 5, 5);
     subsubCanvas.Clear(Color::Green);
 
-    canvas.Save(outputFilename, FileFormat::PNG);
+    io::SaveAsPNG(outputFilename, canvas);
 }
 
 void example_subcanvas2(const std::string &outputFilename)
@@ -43,7 +53,8 @@ void example_subcanvas2(const std::string &outputFilename)
         for (int x = 0; x < subCanvas.GetWidth(); x++)
             subCanvas.SetPixel(x, y, Pixel::RGBA(0, static_cast<float>(x) / subCanvas.GetWidth() * 255, static_cast<float>(y) / subCanvas.GetHeight() * 255, 255));
 
-    canvas.Save(outputFilename, FileFormat::PNG);
+    // canvas.Save(outputFilename, FileFormat::PNG);
+    io::SaveAsPNG(outputFilename, canvas);
 }
 
 void example_load(const std::string &outputFilename, const std::string &inputFilename)
@@ -57,7 +68,8 @@ void example_load(const std::string &outputFilename, const std::string &inputFil
     auto subCanvas = canvas.SubCanvas(canvas.GetWidth() / 4, canvas.GetHeight() / 4, canvas.GetWidth() / 2, canvas.GetHeight() / 2);
     subCanvas.Clear(Color::Blue);
 
-    canvas.Save(outputFilename, FileFormat::PNG);
+    // canvas.Save(outputFilename, FileFormat::PNG);
+    io::SaveAsPNG(outputFilename, canvas);
 }
 
 void example_deepcopy(const std::string &outputOriginal, const std::string &outputSubCanvas)
@@ -73,8 +85,10 @@ void example_deepcopy(const std::string &outputOriginal, const std::string &outp
     auto deepCopy = canvas.DeepCopy();
     deepCopy.SubCanvas(15, 15, 10, 10).Clear(Color::Blue);
 
-    canvas.Save(outputOriginal, FileFormat::PNG);
-    deepCopy.Save(outputSubCanvas, FileFormat::PNG);
+    // canvas.Save(outputOriginal, FileFormat::PNG);
+    // deepCopy.Save(outputSubCanvas, FileFormat::PNG);
+    io::SaveAsPNG(outputOriginal, canvas);
+    io::SaveAsPNG(outputSubCanvas, deepCopy);
 }
 
 void example_resize(const std::string &outputWH, const std::string &outputFactor, const std::string &inputFilename)
@@ -84,9 +98,12 @@ void example_resize(const std::string &outputWH, const std::string &outputFactor
     using namespace yadl;
 
     Canvas canvas(inputFilename);
-    canvas.Resize(200, 200).Save(outputWH, FileFormat::PNG);
 
-    canvas.Resize(2.f).Save(outputFactor, FileFormat::PNG);
+    auto absolute = canvas.Resize(200, 200);
+    io::SaveAsPNG(outputWH, absolute);
+
+    auto relative = canvas.Resize(2.f);
+    io::SaveAsPNG(outputFactor, relative);
 
 }
 
@@ -95,32 +112,34 @@ void example_shape_actions(const std::string &outputBlend, const std::string &ou
     YADL_FUNCTION_PERF(std::cout);
 
     using namespace yadl;
-
+    
     Canvas original(50, 50);
     original.Clear(Pixel(255, 0, 0, 128));
-
-    Shape::Get().SetPosition(0,0).SetColor(Pixel(0, 255, 0, 128));
-
+   
+    // Shape::Get().SetPosition(0,0).SetColor(Pixel(0, 255, 0, 128));
+    Context ctx(original);
+    
+    ctx.SetPosition(0,0).SetColor(Pixel(0, 255, 0, 128));
+    
     auto blend = original.DeepCopy();
-    Shape::Get().SetCanvas(blend).SetAction(Shape::Action::Blend);
-    Shape::Get().DrawFilledRectangle(25, 25);
-    blend.Save(outputBlend, FileFormat::PNG);
-
+    ctx.SetCanvas(blend).SetModeBlend();
+    Shape::DrawFilledRectangle(ctx, 25, 25);
+    io::SaveAsPNG(outputBlend, blend);
+    
     auto add = original.DeepCopy();
-    Shape::Get().SetCanvas(add).SetAction(Shape::Action::Add);
-    Shape::Get().DrawFilledRectangle(25, 25);
-    add.Save(outputAdd, FileFormat::PNG);
+    ctx.SetCanvas(add).SetModeAdd();
+    Shape::DrawFilledRectangle(ctx, 25, 25);
+    io::SaveAsPNG(outputAdd, add);
     
     auto set = original.DeepCopy();
-    Shape::Get().SetCanvas(set).SetAction(Shape::Action::Set);
-    Shape::Get().DrawFilledRectangle(25, 25);
-    set.Save(outputSet, FileFormat::PNG);
-
+    ctx.SetCanvas(set).SetModeSet();
+    Shape::DrawFilledRectangle(ctx, 25, 25);
+    io::SaveAsPNG(outputSet, set);
+    
     auto sub = original.DeepCopy();
-    Shape::Get().SetCanvas(sub).SetAction(Shape::Action::Sub).SetColor(Pixel(50, 0, 255, 0));
-    Shape::Get().DrawFilledRectangle(25, 25);
-    sub.Save(outputSub, FileFormat::PNG);
-    Shape::Get().SetAction(Shape::Action::Set);
+    ctx.SetCanvas(sub).SetModeSub();
+    Shape::DrawFilledRectangle(ctx, 25, 25);
+    io::SaveAsPNG(outputSub, sub);
     
 }
 
@@ -132,26 +151,29 @@ void example_thickness(const std::string &outputFilename)
     Canvas canvas(200, 200);
     canvas.Clear(Color::Dark);
 
-    Shape::Get().SetCanvas(canvas).SetColor(Color::Red).SetThickness(1);
-    Shape::Get().SetPosition(canvas.GetCenterX(), canvas.GetCenterY());
-    Shape::Get().SetThickness(2).SetColor(Color::Black);
-    
+    Context ctx(canvas);
+    ctx.SetPosition(canvas.GetCenterX(), canvas.GetCenterY());
+    ctx.SetThickness(2).SetColor(Color::Black);
+
     for (int i = 0; i < 9; i++)
-        Shape::Get().DrawCircle(10 + i * 10);
+        Shape::DrawCircle(ctx, 10 + i * 10);
 
-    Shape::Get().SetPosition(60,140).SetColor(Color::Red).DrawFilledCircle(15);
+    ctx.SetPosition(60,140).SetColor(Color::Red);
+    Shape::DrawFilledCircle(ctx, 15);
 
+    
+    ctx.SetPosition(canvas.GetCenterX(), canvas.GetCenterY()).SetColor(Color::Blue);
+    Shape::DrawLine(ctx, 0,0);
 
-    Shape::Get().SetPosition(canvas.GetCenterX(), canvas.GetCenterY());
-    Shape::Get().SetColor(Color::Blue).DrawLine(0,0);
+    ctx.SetThickness(5);
+    Shape::DrawLine(ctx, canvas.GetWidth(), 0);
 
-    Shape::Get().SetThickness(5).DrawLine(canvas.GetWidth(), 0);
+    ctx.SetThickness(3).SetColor(Color::Green).SetPosition(20,20);
+    Shape::DrawRectangle(ctx, 160,160);
+    ctx.SetThickness(1).SetColor(Color::Yellow).SetPosition(40,40);
+    Shape::DrawRectangle(ctx, 120,120);
 
-    Shape::Get().SetThickness(3).SetColor(Color::Green).SetPosition(20,20).DrawRectangle(160,160);
-    Shape::Get().SetThickness(1).SetColor(Color::Yellow).SetPosition(40,40).DrawRectangle(120,120);
-
-
-    canvas.Save(outputFilename, FileFormat::PNG);
+    io::SaveAsPNG(outputFilename, canvas);
 }
 
 void example_text(const std::string &outputFilename)
@@ -162,17 +184,20 @@ void example_text(const std::string &outputFilename)
     Canvas canvas(300, 100);
     canvas.Clear(Color::Dark);
 
+    Context ctx(canvas);
     Font font("assets/RobotoCondensed-Regular.ttf");
-    Text::Get().SetCanvas(canvas).SetFont(font).SetColor(Color::White).SetPosition(20, 42);
-    Text::Get().DrawText("I hate text\nrendering :c");
 
-    canvas.Save(outputFilename, FileFormat::PNG);
+    ctx.SetFont(font).SetColor(Color::White).SetPosition(20, 42);
+    Text::DrawText(ctx, "I hate text\nrendering :c");
+
+    io::SaveAsPNG(outputFilename, canvas);
 }
 
 int main(int argc, char const *argv[])
 {
     (void)argc;
     (void)argv;
+
     YADL_PERF_START(ALL_EXAMPLES);
     example_subcanvas("subcanvas.png");
     example_subcanvas2("subcanvas2.png");
@@ -183,6 +208,19 @@ int main(int argc, char const *argv[])
     example_thickness("thickness.png");
     example_text("text.png");
     YADL_PERF_END(ALL_EXAMPLES);
+
+    // Canvas canvas(...);
+    // Context ctx(canvas);
+    // ctx.set_color(RED);
+    // ctx.move_to(100, 100);
+    // ctx.line_to(120, 120);
+    // ctx.line_to(140, 100);
+    // {
+    //     auto guard = ctx.save();
+    //     ctx.set_color(BLUE); // nyní je barva modrá
+    //     ctx.rectangle(...);
+    // } // guard skončil, zavolá se ctx.restore(), barva se vrátí na červenou
+
     
     // TODOOO:
     // Canvas tex("texture.png", ImageFormat::PNG);

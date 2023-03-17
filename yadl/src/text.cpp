@@ -1,34 +1,42 @@
 #include "text.hpp"
 #include "font_internal.hpp"
 #include <iostream>
+
 namespace yadl
 {
-    Text &Text::DrawText(const std::string &text)
+    void Text::DrawText(Context& ctx, const std::string& text)
     {
+        auto& state = ctx.GetState();
+        
+        if(state.font.m_internal == nullptr)
+            throw std::runtime_error("Font not set");
+
         constexpr int32_t spaceWidth = 10;
-        int32_t x = m_positionX;
-        int32_t y = m_positionY;
+        int32_t x = state.positionX;
+        int32_t y = state.positionY;
 
         for (char c : text)
         {
             if(c == ' ')
             {
-                x += static_cast<int32_t>(spaceWidth * m_scale);
+                x += static_cast<int32_t>(spaceWidth * state.fontScale);
                 continue;
             }
 
             if(c == '\n')
             {
-                x = m_positionX;
-                y += GetCurrentTextHeight();
+                x = state.positionX;
+                y += ctx.GetCurrentTextHeight();
                 continue;
             }
 
-            Canvas charCanvas = m_font.m_internal->GetCharCanvas(c);
-            const auto& metrics = m_font.m_internal->GetGlyphMetrics(c);
+            // Canvas charCanvas = ctx.m_font.m_internal->GetCharCanvas(c);
+            // const auto& metrics = ctx.m_font.m_internal->GetGlyphMetrics(c);
+            Canvas charCanvas = state.font.m_internal->GetCharCanvas(c);
+            const auto& metrics = state.font.m_internal->GetGlyphMetrics(c);
 
-            if(m_scale != 1.0f)
-                charCanvas = charCanvas.Resize(m_scale);
+            if(state.fontScale != 1.0f)
+                charCanvas = charCanvas.Resize(state.fontScale);
 
             for (int32_t i = 0; i < charCanvas.GetWidth(); i++)
             {
@@ -37,20 +45,17 @@ namespace yadl
                     Pixel charPixel = charCanvas.GetPixel(i, j);
                     if(charPixel.a > 0)
                     {
-                        Pixel& canvasPixel = m_canvas.RefPixel(x + i - static_cast<int32_t>(metrics.bearingX * m_scale)
-                                                             , y + j - static_cast<int32_t>(metrics.bearingY * m_scale));
-                        Pixel targetColor = m_color;
+                        Pixel& canvasPixel = state.canvas.RefPixel(x + i - static_cast<int32_t>(metrics.bearingX * state.fontScale)
+                                                             , y + j - static_cast<int32_t>(metrics.bearingY * state.fontScale));
+                        Pixel targetColor = state.color;
                         targetColor *= charPixel;
                         canvasPixel = targetColor;
                     } 
                 }
             }
-            x += static_cast<int32_t>((metrics.width + metrics.bearingX) * m_scale);
-
+            x += static_cast<int32_t>((metrics.width + metrics.bearingX) * state.fontScale);
         }
-
-
-
-        return *this;
     }
+
+
 }

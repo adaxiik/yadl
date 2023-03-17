@@ -12,6 +12,8 @@ Yet Another Drawing Library
 - better readme
 - run sdl examples render loop in a separate thread
 - fix weird font position.. (run [sdl text example](examples/sdl_examples/text_example.cpp), and try to scale the text)
+- fix weird text rendering problem around scale 1.001 (run [sdl text example](examples/sdl_examples/text_example.cpp), and try to scale the text)
+- Test Guards
 
 # Examples
 - see [classic examples](examples/classic_examples), for examples that generate images, and [sdl examples](examples/sdl_examples) for live examples that use sdl2.

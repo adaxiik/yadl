@@ -23,8 +23,10 @@ namespace yadl
 
     public:
         FontInternal(const std::string &path);
-        FontInternal(const FontInternal &other) = default;
-        FontInternal &operator=(const FontInternal &other) = default;
+        FontInternal(const FontInternal &other) = delete;
+        FontInternal &operator=(const FontInternal &other) = delete;
+        FontInternal(FontInternal &&other) = default;
+        FontInternal &operator=(FontInternal &&other) = default;
         ~FontInternal();
         struct GlyphMetrics
         {

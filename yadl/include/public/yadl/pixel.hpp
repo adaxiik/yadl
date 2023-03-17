@@ -5,21 +5,17 @@ namespace yadl
 {
 
     struct Pixel
-    {
-        union
-        {
-            struct
-            {
-                uint8_t r;
-                uint8_t g;
-                uint8_t b;
-                uint8_t a;
-            };
-            uint32_t rgba;
-        };
+    {         
+        uint8_t r;
+        uint8_t g;
+        uint8_t b;
+        uint8_t a;
 
         constexpr Pixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a) : r(r), g(g), b(b), a(a) {}
-        constexpr Pixel(uint32_t rgba) : rgba(rgba) {}
+        constexpr Pixel(uint32_t rgba) : r((rgba >> 0) & 0xFF)
+                                       , g((rgba >> 8) & 0xFF)
+                                       , b((rgba >> 16) & 0xFF)
+                                       , a((rgba >> 24) & 0xFF) {}
         constexpr Pixel() : r(0), g(0), b(0), a(0) {}
         constexpr Pixel(const Pixel &other) = default;
         constexpr Pixel &operator=(const Pixel &other) = default;
@@ -28,12 +24,16 @@ namespace yadl
 
         constexpr inline bool operator==(const Pixel &other) const
         {
-            return rgba == other.rgba;
+            int32_t self_rgba{a << 24 | b << 16 | g << 8 | r};
+            int32_t other_rgba{other.a << 24 | other.b << 16 | other.g << 8 | other.r};
+            return self_rgba == other_rgba;
         }
 
         constexpr inline bool operator!=(const Pixel &other) const
         {
-            return rgba != other.rgba;
+            int32_t self_rgba{a << 24 | b << 16 | g << 8 | r};
+            int32_t other_rgba{other.a << 24 | other.b << 16 | other.g << 8 | other.r};
+            return self_rgba != other_rgba;
         }
 
         constexpr inline Pixel &operator+=(const Pixel &other)

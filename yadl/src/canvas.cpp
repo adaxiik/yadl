@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include <algorithm>
 #include <iostream>
-
 #include "io.hpp"
 
 #ifdef YADL_DEBUG
@@ -16,12 +15,7 @@
 
 namespace yadl
 {
-    Canvas::Canvas()
-        : m_width{0}
-        , m_height{0}
-        , m_pixelStride{0}
-        , m_pixels{nullptr}
-        {}
+    Canvas::Canvas(): Canvas(0, 0) {}
 
 
     Canvas::Canvas(int32_t width, int32_t height)
@@ -62,15 +56,15 @@ namespace yadl
         m_pixels = other.m_pixels;
         return *this;
     }
-    
-
-
 
     Canvas::Canvas(const std::string &filename)
     {
-        bool success = Load(filename);
-        if (!success)
-            throw std::runtime_error("Failed to load image");
+        // io shouldn't be part of this class, but its pretty convenient to have it here, so I'll leave it for now c:
+        auto canvas = io::Load(filename);
+        if(!canvas.has_value())
+            throw std::runtime_error("Failed to load image: " + filename);
+
+        *this = canvas.value();
     }
 
     Pixel Canvas::GetPixel(int32_t x, int32_t y) const
@@ -118,63 +112,11 @@ namespace yadl
         return m_pixels[y * m_pixelStride + x];
     }
 
-    
-
-
-
-    bool Canvas::Save(const std::string &filename, FileFormat fileformat) const
-    {
-        switch (fileformat)
-        {
-        case FileFormat::PNG:
-            io::SaveAsPNG(filename, m_width, m_height, GetBytes(), GetByteStride());
-            return true;
-            break;
-        case FileFormat::PPM6:
-            io::SaveAsPPM6(filename, m_width, m_height, GetBytes(), GetByteStride());
-            return true;
-            break;
-        case FileFormat::PPM3:
-            io::SaveAsPPM3(filename, m_width, m_height, GetBytes(), GetByteStride());
-            return true;
-            break;
-
-        // case FileFormat::JPG:
-        //     stbi_write_jpg(filename.c_str(), m_width, m_height, 4, m_pixels.get(), 100);
-        //     return true;
-        //     break;
-        // case FileFormat::BMP:
-        //     stbi_write_bmp(filename.c_str(), m_width, m_height, 4, m_pixels.get());
-        //     return true;
-        //     break;
-        // case FileFormat::TGA:
-        //     stbi_write_tga(filename.c_str(), m_width, m_height, 4, m_pixels.get());
-        //     return true;
-        //     break;
-    
-        default:
-            return false;
-        }
-
-        return false;
-    }
-
-    bool Canvas::Load(const std::string &filename)
-    {
-
-        m_pixels = io::Load(filename, m_width, m_height);
-        if (m_pixels == nullptr)
-            return false;
-        m_pixelStride = m_width;
-
-        return true;
-    }
-    
     Canvas& Canvas::Clear(Pixel pixel)
     {
         for (int32_t y = 0; y < m_height; y++)
             for (int32_t x = 0; x < m_width; x++)
-                SetPixel(x, y, pixel);
+                RefPixel(x, y) = pixel;
 
         return *this;
     }
@@ -204,18 +146,34 @@ namespace yadl
         Canvas c(m_width, m_height);
         for (int32_t y = 0; y < m_height; y++)
             for (int32_t x = 0; x < m_width; x++)
-                c.SetPixel(x, y, GetPixel(x, y));
+                c.RefPixel(x, y) = GetPixel(x, y);
         return c;
+    }
+
+    bool Canvas::IsDeepEqual(const Canvas& other) const
+    {
+        if (!IsSameSize(other))
+            return false;
+
+        for (int32_t y = 0; y < m_height; y++)
+            for (int32_t x = 0; x < m_width; x++)
+                if (GetPixel(x, y) != other.GetPixel(x, y))
+                    return false;
+
+        return true;
     }
 
     Canvas Canvas::Resize(int32_t width, int32_t height) const
     {
         Canvas c(width, height);
+        if(width == m_width && height == m_height)
+            return c;
+
         for (int32_t y = 0; y < height; y++)
             for (int32_t x = 0; x < width; x++)
-                c.SetPixel(x, y, GetPixel(x * m_width / width, y * m_height / height));
+                c.RefPixel(x, y) = GetPixel(static_cast<int32_t>(static_cast<float>(x) / width * m_width)
+                                          , static_cast<int32_t>(static_cast<float>(y) / height * m_height));
         return c;
     }
-
 
 }

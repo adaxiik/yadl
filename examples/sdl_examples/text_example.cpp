@@ -15,6 +15,12 @@ private:
     float m_fontScale = 1.0f;
     float m_color[4] = {1.0f, 1.0f, 1.0f, 1.0f};
 
+    virtual void OnStart()
+    {
+        Font font("assets/RobotoCondensed-Regular.ttf");
+        m_ctx.SetFont(font);
+    }
+
     virtual void OnRender(double deltaTime)
     {
         (void)deltaTime;
@@ -25,8 +31,8 @@ private:
                             static_cast<uint8_t>(m_color[2] * 255),
                             static_cast<uint8_t>(m_color[3] * 255));
 
-        Text::Get().SetCanvas(m_canvas).SetColor(color).SetScale(m_fontScale);
-        Text::Get().SetPosition(20,50).DrawText(m_text);
+        m_ctx.SetColor(color).SetFontScale(m_fontScale).SetPosition(20, 50);
+        Text::DrawText(m_ctx, m_text);
         
     }
     virtual void OnImGuiRender(double deltaTime)
@@ -49,8 +55,6 @@ int main(int argc, char const *argv[])
 {
     (void)argc;
     (void)argv;
-    Font font("assets/RobotoCondensed-Regular.ttf");
-    Text::Get().SetFont(font);
 
     TextExample example;
     example.Start();

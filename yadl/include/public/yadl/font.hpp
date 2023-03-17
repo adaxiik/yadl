@@ -17,6 +17,8 @@ namespace yadl
         Font(const std::string& path);
         Font(const Font& other) = default;
         Font& operator=(const Font& other) = default;
+        Font(Font&& other) noexcept = default;
+        Font& operator=(Font&& other) noexcept = default;
         ~Font();
 
     };

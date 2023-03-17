@@ -5,6 +5,7 @@
 #include <yadl/pixel.hpp>
 #include <yadl/shape.hpp>
 
+
 using namespace yadl;
 class CircleExample : public SDLCore
 {
@@ -14,7 +15,7 @@ private:
     int32_t m_centerDistanceY{70};
     float m_color[4]{1.0f, 0.0f, 0.0f, 1.0f};
     bool m_filled{true};
-    
+
     virtual void OnRender(double deltaTime)
     {
         static double time = 0;
@@ -22,7 +23,8 @@ private:
 
         m_canvas.Clear(Color::Dark);
         Pixel color(static_cast<uint8_t>(m_color[0] * 255), static_cast<uint8_t>(m_color[1] * 255), static_cast<uint8_t>(m_color[2] * 255), static_cast<uint8_t>(m_color[3] * 255));
-        Shape::Get().SetColor(color).SetCanvas(m_canvas);
+        
+        m_ctx.SetColor(color);
 
         int32_t centerX = m_canvas.GetCenterX();
         int32_t centerY = m_canvas.GetCenterY();
@@ -30,11 +32,11 @@ private:
         int32_t x = centerX + std::cos(time) * m_centerDistanceX;
         int32_t y = centerY + std::sin(time) * m_centerDistanceY;
 
-        Shape::Get().SetPosition(x, y);
+        m_ctx.SetPosition(x, y);
         if (m_filled)
-            Shape::Get().DrawFilledCircle(m_radius);
+            Shape::DrawFilledCircle(m_ctx, m_radius);
         else
-            Shape::Get().DrawCircle(m_radius);
+            Shape::DrawCircle(m_ctx, m_radius);
 
     }
     virtual void OnImGuiRender(double deltaTime)

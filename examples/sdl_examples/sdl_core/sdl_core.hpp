@@ -11,6 +11,7 @@
 #include "backends/imgui_impl_sdlrenderer.h"
 #include "imgui.h"
 
+#include <yadl/context.hpp>
 #include <yadl/canvas.hpp>
 #include <yadl/debug.hpp>
 
@@ -34,6 +35,8 @@ private:
 
         double deltaTime = 0.0;
         std::chrono::high_resolution_clock::time_point lastFrame = std::chrono::high_resolution_clock::now();
+        
+        OnStart();
 
         while (isRunning)
         {
@@ -75,9 +78,14 @@ private:
 
 protected:
     yadl::Canvas m_canvas;
+    yadl::Context m_ctx{m_canvas};
 
 public:
-    SDLCore(int32_t canvasWidth = 640, int32_t canvasHeight = 480) : m_canvasWidth{canvasWidth}, m_canvasHeight{canvasHeight}, m_canvas{canvasWidth, canvasHeight}
+    SDLCore(int32_t canvasWidth = 640, int32_t canvasHeight = 480) 
+    : m_canvasWidth{canvasWidth}
+    , m_canvasHeight{canvasHeight}
+    , m_canvas{canvasWidth, canvasHeight}
+    , m_ctx{m_canvas}
     {
         YADL_LOG_FATAL_IF(SDL_Init(SDL_INIT_EVERYTHING) != 0, "SDL_Init Error: %s", SDL_GetError());
 
@@ -134,4 +142,5 @@ public:
     {
         (void) deltaTime;
     };
+    virtual void OnStart() {};
 };
