@@ -4,11 +4,11 @@
 
 namespace yadl
 {
-    void Text::DrawText(Context& ctx, const std::string& text)
+    void text::DrawText(Context& ctx, const std::string& text)
     {
         auto& state = ctx.GetState();
         
-        if(state.font.m_internal == nullptr)
+        if(state.font.GetInternal() == nullptr)
             throw std::runtime_error("Font not set");
 
         constexpr int32_t spaceWidth = 10;
@@ -30,10 +30,10 @@ namespace yadl
                 continue;
             }
 
-            // Canvas charCanvas = ctx.m_font.m_internal->GetCharCanvas(c);
-            // const auto& metrics = ctx.m_font.m_internal->GetGlyphMetrics(c);
-            Canvas charCanvas = state.font.m_internal->GetCharCanvas(c);
-            const auto& metrics = state.font.m_internal->GetGlyphMetrics(c);
+            // Canvas charCanvas = ctx.m_font.GetInternal()->GetCharCanvas(c);
+            // const auto& metrics = ctx.m_font.GetInternal()->GetGlyphMetrics(c);
+            Canvas charCanvas = state.font.GetInternal()->GetCharCanvas(c);
+            const auto& metrics = state.font.GetInternal()->GetGlyphMetrics(c);
 
             if(state.fontScale != 1.0f)
                 charCanvas = charCanvas.Resize(state.fontScale);

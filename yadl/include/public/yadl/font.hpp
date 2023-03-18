@@ -9,7 +9,6 @@ namespace yadl
     class Font
     {
     private:
-        friend class Text;
         std::shared_ptr<FontInternal> m_internal;
 
     public:
@@ -20,6 +19,8 @@ namespace yadl
         Font(Font&& other) noexcept = default;
         Font& operator=(Font&& other) noexcept = default;
         ~Font() = default;
+
+        std::shared_ptr<FontInternal> GetInternal() const { return m_internal; };
 
     };
 

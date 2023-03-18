@@ -1,9 +1,8 @@
 #include "shape.hpp"
-#define YADL_DEBUG
-#include "debug.hpp"
+
 namespace yadl
 {
-    void Shape::DrawFilledRectangle(Context& ctx, int32_t width, int32_t height)
+    void shape::DrawFilledRectangle(Context& ctx, int32_t width, int32_t height)
     {
         auto& state = ctx.GetState();
 
@@ -13,7 +12,7 @@ namespace yadl
         
     }
 
-    void Shape::DrawFilledCircle(Context& ctx, int32_t radius)
+    void shape::DrawFilledCircle(Context& ctx, int32_t radius)
     {
         auto& state = ctx.GetState();
 
@@ -23,7 +22,7 @@ namespace yadl
                     state.action(state.canvas.RefPixel(x, y));
     }
 
-    void Shape::DrawLine(Context& ctx, int32_t x1, int32_t y1)
+    void shape::DrawLine(Context& ctx, int32_t x1, int32_t y1)
     {
         // https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
         // stupid and naive, but gets the job done
@@ -76,7 +75,7 @@ namespace yadl
         }
     }
 
-    void Shape::DrawRectangle(Context& ctx, int32_t width, int32_t height)
+    void shape::DrawRectangle(Context& ctx, int32_t width, int32_t height)
     {
         auto& state = ctx.GetState();
 
@@ -109,7 +108,7 @@ namespace yadl
         ctx.SetPosition(originalPositionX, originalPositionY);
     }
 
-    void Shape::DrawCircle(Context& ctx, int32_t radius)
+    void shape::DrawCircle(Context& ctx, int32_t radius)
     {
         auto& state = ctx.GetState();
 
@@ -168,7 +167,7 @@ namespace yadl
     }
 
 
-    void Shape::DrawFilledCircleAA(Context& ctx, int32_t radius)
+    void shape::DrawFilledCircleAA(Context& ctx, int32_t radius)
     {
         auto& state = ctx.GetState();
         // I had to improvise a bit here c:
@@ -207,7 +206,7 @@ namespace yadl
         state.action = originalAction;
     }
 
-    void Shape::DrawCircleAA(Context& ctx, int32_t radius)
+    void shape::DrawCircleAA(Context& ctx, int32_t radius)
     {
         auto& state = ctx.GetState();
 
@@ -269,7 +268,7 @@ namespace yadl
     }
 
 
-    void Shape::DrawLineAA(Context& ctx, int32_t x1, int32_t y1)
+    void shape::DrawLineAA(Context& ctx, int32_t x1, int32_t y1)
     {
         // https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
         // stupid and naive, but gets the job done

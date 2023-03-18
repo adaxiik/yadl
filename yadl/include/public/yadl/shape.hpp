@@ -8,16 +8,8 @@
 
 namespace yadl
 {
-    class Shape
+    namespace shape
     {
-    private:
-        Shape() = default;
-        Shape(const Shape &) = delete;
-        Shape &operator=(const Shape &) = delete;
-        Shape(Shape &&) = delete;
-        Shape &operator=(Shape &&) = delete;
-        ~Shape() = default;
-    public:
         /**
          * @brief Draw a filled rectangle
          * 
@@ -27,7 +19,7 @@ namespace yadl
          * @param width of the rectangle
          * @param height of the rectangle
          */
-        static void DrawFilledRectangle(Context& ctx, int32_t width, int32_t height);
+        void DrawFilledRectangle(Context& ctx, int32_t width, int32_t height);
 
         /**
          * @brief Draw a rectangle
@@ -38,7 +30,7 @@ namespace yadl
          * @param width  of the rectangle
          * @param height of the rectangle
          */
-        static void DrawRectangle(Context& ctx, int32_t width, int32_t height);
+        void DrawRectangle(Context& ctx, int32_t width, int32_t height);
 
         /**
          * @brief Draw a filled circle
@@ -49,7 +41,7 @@ namespace yadl
          * @param ctx current context, see Context
          * @param radius of the circle
          */
-        static void DrawFilledCircle(Context& ctx, int32_t radius);
+        void DrawFilledCircle(Context& ctx, int32_t radius);
 
         /**
          * @brief Draw a circle
@@ -60,7 +52,7 @@ namespace yadl
          * @param ctx current context, see Context
          * @param radius of the circle
          */
-        static void DrawCircle(Context& ctx, int32_t radius);
+        void DrawCircle(Context& ctx, int32_t radius);
 
         /**
          * @brief Draw a line
@@ -72,7 +64,7 @@ namespace yadl
          * @param x end position of the line
          * @param y end position of the line
          */
-        static void DrawLine(Context& ctx, int32_t x, int32_t y);
+        void DrawLine(Context& ctx, int32_t x, int32_t y);
         
         /**
          * @brief Draw a filled circle with anti-aliasing
@@ -83,7 +75,7 @@ namespace yadl
          * @param ctx current context, see Context
          * @param radius of the circle
          */
-        static void DrawFilledCircleAA(Context& ctx, int32_t radius);
+        void DrawFilledCircleAA(Context& ctx, int32_t radius);
         
         /**
          * @brief Draw a circle with anti-aliasing
@@ -94,7 +86,7 @@ namespace yadl
          * @param ctx current context, see Context
          * @param radius of the circle
          */
-        static void DrawCircleAA(Context& ctx, int32_t radius);
+        void DrawCircleAA(Context& ctx, int32_t radius);
         
         /**
          * @brief Draw a line with anti-aliasing
@@ -106,7 +98,7 @@ namespace yadl
          * @param x end position of the line
          * @param y end position of the line
          */
-        static void DrawLineAA(Context& ctx, int32_t x, int32_t y);
-    };
+        void DrawLineAA(Context& ctx, int32_t x, int32_t y);
+    }
 
 }

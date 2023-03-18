@@ -176,4 +176,11 @@ namespace yadl
         return c;
     }
 
+    Canvas& Canvas::Paste(const Canvas& other, int32_t x, int32_t y)
+    {
+        for (int32_t oy = 0; oy < other.m_height; oy++)
+            for (int32_t ox = 0; ox < other.m_width; ox++)
+                RefPixel(x + ox, y + oy) = other.GetPixel(ox, oy);
+        return *this;
+    }
 }

@@ -43,7 +43,7 @@ private:
         m_ctx.SetColor(color).SetPosition(canvasX, canvasY).SetThickness(m_brushSize);
 
         if (m_mouseDown)
-            Shape::DrawLineAA(m_ctx, m_mouseLastX, m_mouseLastY);
+            shape::DrawLineAA(m_ctx, m_mouseLastX, m_mouseLastY);
 
         
     }

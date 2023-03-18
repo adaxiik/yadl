@@ -4,16 +4,8 @@
 #include "context.hpp"
 namespace yadl
 {
-    class Text
+    namespace text
     {
-    private:
-        Text() = delete;
-        Text(const Text &) = delete;
-        Text &operator=(const Text &) = delete;
-        Text(Text &&) = delete;
-        Text &operator=(Text &&) = delete;
-        ~Text() = delete;
-    public:
         /**
          * @brief Draw text
          * @warning Font must be set before calling this function, see Context.SetFont
@@ -24,6 +16,6 @@ namespace yadl
          * @param ctx current context, see Context
          * @param text to draw
          */
-        static void DrawText(Context& ctx, const std::string& text);
-    };
+        void DrawText(Context &ctx, const std::string &text);
+    }
 }

@@ -36,12 +36,12 @@ private:
         m_ctx.SetPosition(x, y);
         if (m_filled)
         {
-            Shape::DrawFilledCircleAA(m_ctx, m_radius);
+            shape::DrawFilledCircleAA(m_ctx, m_radius);
         }
         else
         {
             m_ctx.SetThickness(m_thickness);
-            Shape::DrawCircleAA(m_ctx, m_radius);
+            shape::DrawCircleAA(m_ctx, m_radius);
         }
 
     }

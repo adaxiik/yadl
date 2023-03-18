@@ -225,5 +225,16 @@ namespace yadl
         }
         inline Canvas Resize(int32_t size) const { return Resize(size, size); }
         inline Canvas Resize(float factor) const { return Resize(factor, factor); }
+
+        /**
+         * @brief Paste the other canvas on the current canvas starting at the specified position (top-left)
+         * 
+         * @param other canvas that will be pasted on the current canvas
+         * @param x position in the current canvas
+         * @param y position in the current canvas
+         * @return Canvas& 
+         */
+        Canvas& Paste(const Canvas& other, int32_t x, int32_t y);
+
     };
 }
