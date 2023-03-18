@@ -5,7 +5,6 @@ Yet Another Drawing Library
 - add more examples
 - sdf font rendering (maybe)
 - documentation
-- animations and animation export
 - gfx 
 - 3d
 - better readme

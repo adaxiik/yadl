@@ -233,6 +233,7 @@ void example_animation(const std::string& outputFilename)
     Animation anim(canvas.GetWidth(), canvas.GetHeight());
     for(size_t i = 0; i < 20; i++)
     {
+        ctx.SetColor(Pixel::Lerp(Color::Yellow, Color::Red, i / 20.f));
         Shape::DrawCircle(ctx, i * 5);
         anim.AddFrame(canvas);
     }

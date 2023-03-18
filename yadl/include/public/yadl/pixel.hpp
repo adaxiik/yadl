@@ -68,6 +68,16 @@ namespace yadl
             return (a << 24) | (b << 16) | (g << 8) | r;
         }
 
+        constexpr static Pixel Lerp(const Pixel &a, const Pixel &b, float t)
+        {
+            return Pixel(static_cast<uint8_t>(a.r + (b.r - a.r) * t),
+                         static_cast<uint8_t>(a.g + (b.g - a.g) * t),
+                         static_cast<uint8_t>(a.b + (b.b - a.b) * t),
+                         static_cast<uint8_t>(a.a + (b.a - a.a) * t));
+        }
+
+        // todo slerp
+
         constexpr Pixel &Blend(const Pixel &other)
         {
             // https://registry.khronos.org/OpenGL-Refpages/gl4/html/mix.xhtml

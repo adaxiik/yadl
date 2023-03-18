@@ -99,6 +99,7 @@ namespace yadl
             GifWriter writer;
             GifBegin(&writer, filename.c_str(), animation.GetWidth(), animation.GetHeight(), delay);
             std::unique_ptr<uint8_t[]> buffer_to_use_cpp_safely_smiley_face(new uint8_t[animation.GetWidth() * animation.GetHeight() * 4]);
+            
             for (size_t i = 0; i < animation.GetFrameCount(); i++)
             {
                 std::memcpy(buffer_to_use_cpp_safely_smiley_face.get(), animation[i].GetBytes(), animation.GetWidth() * animation.GetHeight() * 4);
