@@ -25,5 +25,11 @@ target_include_directories(text_example PUBLIC "sdl_examples/sdl_core/3rparty/im
 target_link_libraries(text_example yadl m SDL2)
 target_link_libraries(text_example imgui)
 
+# paint
+add_executable(paint_example "sdl_examples/paint_example.cpp")
+target_include_directories(paint_example PUBLIC "sdl_examples/sdl_core/3rparty/imgui")
+target_link_libraries(paint_example yadl m SDL2)
+target_link_libraries(paint_example imgui)
+
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${OUTPUT_DIR})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/clean_generated_examples.sh DESTINATION ${OUTPUT_DIR})

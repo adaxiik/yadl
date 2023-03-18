@@ -4,13 +4,11 @@ Yet Another Drawing Library
 # Todo
 - add more examples
 - sdf font rendering (maybe)
-- multi-threading 
 - documentation
 - animations and animation export
 - gfx 
 - 3d
 - better readme
-- run sdl examples render loop in a separate thread
 
 # Examples
 - see [classic examples](examples/classic_examples), for examples that generate images, and [sdl examples](examples/sdl_examples) for live examples that use sdl2.

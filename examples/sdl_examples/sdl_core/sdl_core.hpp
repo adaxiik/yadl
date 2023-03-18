@@ -17,13 +17,14 @@
 
 class SDLCore
 {
-private:
+public:
     constexpr static int32_t m_width{1280};
     constexpr static int32_t m_height{720};
 
     int32_t m_canvasWidth{640};
     int32_t m_canvasHeight{480};
 
+private:
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window{nullptr, SDL_DestroyWindow};
     std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> m_renderer{nullptr, SDL_DestroyRenderer};
     std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> m_texture{nullptr, SDL_DestroyTexture};
