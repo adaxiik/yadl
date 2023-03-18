@@ -34,10 +34,11 @@ namespace yadl
     
     Canvas& Canvas::operator=(const Canvas& other)
     {
-        m_width = other.m_width;
-        m_height = other.m_height;
-        m_pixelStride = other.m_pixelStride;
-        m_pixels = other.m_pixels;
+        Canvas temp(other);
+        std::swap(m_width, temp.m_width);
+        std::swap(m_height, temp.m_height);
+        std::swap(m_pixelStride, temp.m_pixelStride);
+        std::swap(m_pixels, temp.m_pixels);
         return *this;
     }
 
