@@ -41,7 +41,7 @@ private:
         m_ctx.SetColor(color).SetPosition(canvasX, canvasY);
 
         if (m_mouseDown)
-            Shape::DrawFilledCircle(m_ctx, m_brushSize);
+            Shape::DrawFilledCircleAA(m_ctx, m_brushSize);
 
         
     }

@@ -15,6 +15,7 @@ private:
     int32_t m_centerDistanceY{70};
     float m_color[4]{1.0f, 0.0f, 0.0f, 1.0f};
     bool m_filled{true};
+    int32_t m_thickness{1};
 
     virtual void OnRender(double deltaTime)
     {
@@ -34,9 +35,14 @@ private:
 
         m_ctx.SetPosition(x, y);
         if (m_filled)
-            Shape::DrawFilledCircle(m_ctx, m_radius);
+        {
+            Shape::DrawFilledCircleAA(m_ctx, m_radius);
+        }
         else
-            Shape::DrawCircle(m_ctx, m_radius);
+        {
+            m_ctx.SetThickness(m_thickness);
+            Shape::DrawCircleAA(m_ctx, m_radius);
+        }
 
     }
     virtual void OnImGuiRender(double deltaTime)
@@ -48,6 +54,10 @@ private:
         ImGui::SliderInt("Center Distance Y", &m_centerDistanceY, 1, 100);
         ImGui::ColorEdit4("Color", m_color);
         ImGui::Checkbox("Filled", &m_filled);
+
+        if(!m_filled)
+            ImGui::SliderInt("Thickness", &m_thickness, 1, 5);
+
         ImGui::End();
     }
 public:

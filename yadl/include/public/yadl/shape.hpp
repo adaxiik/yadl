@@ -20,9 +20,14 @@ namespace yadl
     public:
         static void DrawFilledRectangle(Context& ctx, int32_t width, int32_t height);
         static void DrawRectangle(Context& ctx, int32_t width, int32_t height);
+
         static void DrawFilledCircle(Context& ctx, int32_t radius);
         static void DrawCircle(Context& ctx, int32_t radius);
         static void DrawLine(Context& ctx, int32_t x, int32_t y);
+
+        static void DrawFilledCircleAA(Context& ctx, int32_t radius);
+        static void DrawCircleAA(Context& ctx, int32_t radius);
+        static void DrawLineAA(Context& ctx, int32_t x, int32_t y);
     };
 
 }

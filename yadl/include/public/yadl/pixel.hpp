@@ -85,15 +85,16 @@ namespace yadl
             int32_t r1 = static_cast<int32_t>(r);
             int32_t g1 = static_cast<int32_t>(g);
             int32_t b1 = static_cast<int32_t>(b);
-            int32_t a1 = static_cast<int32_t>(a);
+            // int32_t a1 = static_cast<int32_t>(a);
 
             int32_t r2 = static_cast<int32_t>(other.r);
             int32_t g2 = static_cast<int32_t>(other.g);
             int32_t b2 = static_cast<int32_t>(other.b);
+            int32_t a2 = static_cast<int32_t>(other.a);
 
-            r = static_cast<uint8_t>(std::min(255, (r1 * (255 - a1) + r2 * a1) / 255));
-            g = static_cast<uint8_t>(std::min(255, (g1 * (255 - a1) + g2 * a1) / 255));
-            b = static_cast<uint8_t>(std::min(255, (b1 * (255 - a1) + b2 * a1) / 255));
+            r = static_cast<uint8_t>(std::min(255, (r1 * (255 - a2) + r2 * a2) / 255));
+            g = static_cast<uint8_t>(std::min(255, (g1 * (255 - a2) + g2 * a2) / 255));
+            b = static_cast<uint8_t>(std::min(255, (b1 * (255 - a2) + b2 * a2) / 255));
 
             // alpha is the original one
             // half red + half green = ??

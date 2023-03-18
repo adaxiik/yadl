@@ -157,13 +157,13 @@ void example_thickness(const std::string &outputFilename)
         Shape::DrawCircle(ctx, 10 + i * 10);
 
     ctx.SetPosition(60, 140).SetColor(Color::Red);
-    Shape::DrawFilledCircle(ctx, 15);
+    Shape::DrawFilledCircleAA(ctx, 15);
 
     ctx.SetPosition(canvas.GetCenterX(), canvas.GetCenterY()).SetColor(Color::Blue);
-    Shape::DrawLine(ctx, 0, 0);
+    Shape::DrawLineAA(ctx, 0, 0);
 
     ctx.SetThickness(5);
-    Shape::DrawLine(ctx, canvas.GetWidth(), 0);
+    Shape::DrawLineAA(ctx, canvas.GetWidth(), 0);
 
     ctx.SetThickness(3).SetColor(Color::Green).SetPosition(20, 20);
     Shape::DrawRectangle(ctx, 160, 160);
@@ -241,6 +241,21 @@ void example_animation(const std::string& outputFilename)
     io::SaveAsGIF(outputFilename, anim);
 }
 
+void example_antialiasing(const std::string& outputFilename)
+{
+    YADL_FUNCTION_PERF(std::cout);
+    using namespace yadl;
+
+    Canvas canvas(200, 200);
+    canvas.Clear(Color::Dark);
+
+    Context ctx(canvas);
+    ctx.SetPosition(canvas.GetCenterX(), canvas.GetCenterY()).SetColor(Color::Red).SetModeBlend();
+    Shape::DrawFilledCircleAA(ctx, 75);
+
+    io::SaveAsPNG(outputFilename, canvas);
+}
+
 int main(int argc, char const *argv[])
 {
     (void)argc;
@@ -257,6 +272,7 @@ int main(int argc, char const *argv[])
     example_text("text.png");
     example_context("context.png");
     example_animation("animation.gif");
+    example_antialiasing("antialiasing.png");
     YADL_PERF_END(ALL_EXAMPLES);
 
     // Canvas canvas(...);
