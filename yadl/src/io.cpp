@@ -10,33 +10,12 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "3rdparty/stb_image_write.h"
 
+#include "3rdparty/gif.h"
+
 namespace yadl
 {
     namespace io
     {
-        // bool SaveAsPPM3(const std::string &filename, int32_t width, int32_t height, const uint8_t *pixels, int32_t byteStride)
-        // {
-        //
-        // }
-
-        // bool SaveAsPNG(const std::string &filename, int32_t width, int32_t height, const uint8_t *pixels, int32_t byteStride)
-        // {
-        //     return stbi_write_png(filename.c_str(), width, height, 4, pixels, byteStride) != 0;
-        // }
-
-        // std::shared_ptr<Pixel[]> Load(const std::string &filename, int32_t &width, int32_t &height)
-        // {
-        //     int32_t channels;
-        //     std::unique_ptr<uint8_t[], decltype(&stbi_image_free)> data(stbi_load(filename.c_str(), &width, &height, &channels, 4), stbi_image_free);
-        //     if (!data)
-        //         return nullptr;
-
-        //     std::shared_ptr<Pixel[]> pixels{new Pixel[width * height]};
-        //     std::memcpy(pixels.get(), data.get(), width * height * sizeof(Pixel));
-
-        //     return pixels;
-        // }
-
         std::optional<Canvas> Load(const std::string &filename)
         {
             int32_t width, height, channels;
@@ -114,5 +93,22 @@ namespace yadl
             file.close();
             return true;
         }
+
+        bool SaveAsGIF(const std::string &filename, const Animation &animation, int32_t delay)
+        {
+            GifWriter writer;
+            GifBegin(&writer, filename.c_str(), animation.GetWidth(), animation.GetHeight(), delay);
+            std::unique_ptr<uint8_t[]> buffer_to_use_cpp_safely_smiley_face(new uint8_t[animation.GetWidth() * animation.GetHeight() * 4]);
+            for (size_t i = 0; i < animation.GetFrameCount(); i++)
+            {
+                std::memcpy(buffer_to_use_cpp_safely_smiley_face.get(), animation[i].GetBytes(), animation.GetWidth() * animation.GetHeight() * 4);
+                GifWriteFrame(&writer, buffer_to_use_cpp_safely_smiley_face.get(), animation.GetWidth(), animation.GetHeight(), delay);
+            }
+            
+            GifEnd(&writer);
+            return true;
+        }
+
+
     }
 }

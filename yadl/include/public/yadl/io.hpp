@@ -4,6 +4,7 @@
 #include <memory>
 #include "canvas.hpp"
 #include <optional>
+#include "animation.hpp"
 #include "pixel.hpp"
 
 namespace yadl
@@ -14,5 +15,6 @@ namespace yadl
         bool SaveAsPNG(const std::string& filename, const Canvas& canvas);
         bool SaveAsPPM6(const std::string& filename, const Canvas& canvas);
         bool SaveAsPPM3(const std::string& filename, const Canvas& canvas);
+        bool SaveAsGIF(const std::string& filename, const Animation& animation, int32_t delay = 10);
     }
 }

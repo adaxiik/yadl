@@ -8,6 +8,7 @@
 #include <yadl/font.hpp>
 #include <yadl/io.hpp>
 #include <yadl/context.hpp>
+#include <yadl/animation.hpp>
 
 void asserts()
 {
@@ -218,6 +219,27 @@ void example_context(const std::string &outputFilename)
     io::SaveAsPNG(outputFilename, canvas);
 }
 
+void example_animation(const std::string& outputFilename)
+{
+    YADL_FUNCTION_PERF(std::cout);
+    using namespace yadl;
+
+    Canvas canvas(200, 200);
+    canvas.Clear(Color::Dark);
+
+    Context ctx(canvas);
+    ctx.SetPosition(canvas.GetCenterX(), canvas.GetCenterY()).SetColor(Color::Red);
+    
+    Animation anim(canvas.GetWidth(), canvas.GetHeight());
+    for(size_t i = 0; i < 20; i++)
+    {
+        Shape::DrawCircle(ctx, i * 5);
+        anim.AddFrame(canvas);
+    }
+
+    io::SaveAsGIF(outputFilename, anim);
+}
+
 int main(int argc, char const *argv[])
 {
     (void)argc;
@@ -233,6 +255,7 @@ int main(int argc, char const *argv[])
     example_thickness("thickness.png");
     example_text("text.png");
     example_context("context.png");
+    example_animation("animation.gif");
     YADL_PERF_END(ALL_EXAMPLES);
 
     // Canvas canvas(...);
