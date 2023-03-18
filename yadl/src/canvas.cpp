@@ -141,7 +141,7 @@ namespace yadl
     {
     }
 
-    Canvas Canvas::DeepCopy()
+    Canvas Canvas::DeepCopy() const
     {
         Canvas c(m_width, m_height);
         for (int32_t y = 0; y < m_height; y++)
@@ -165,10 +165,10 @@ namespace yadl
 
     Canvas Canvas::Resize(int32_t width, int32_t height) const
     {
-        Canvas c(width, height);
         if(width == m_width && height == m_height)
-            return c;
+            return DeepCopy();
 
+        Canvas c(width, height);
         for (int32_t y = 0; y < height; y++)
             for (int32_t x = 0; x < width; x++)
                 c.RefPixel(x, y) = GetPixel(static_cast<int32_t>(static_cast<float>(x) / width * m_width)

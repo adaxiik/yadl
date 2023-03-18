@@ -41,7 +41,7 @@ namespace yadl
 
         Canvas& Clear(Pixel pixel);
         Canvas SubCanvas(int32_t x, int32_t y, int32_t width, int32_t height) const;
-        Canvas DeepCopy();
+        Canvas DeepCopy() const;
         bool IsSameSize(const Canvas& other) const { return m_width == other.m_width && m_height == other.m_height; }
         bool IsDeepEqual(const Canvas& other) const;
         Canvas Resize(int32_t width, int32_t height) const;
