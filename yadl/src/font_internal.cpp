@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <iostream>
 #include "canvas.hpp"
+#include "io.hpp"
 namespace yadl
 {
     FontInternal::FontInternal()
@@ -27,14 +28,17 @@ namespace yadl
             throw std::runtime_error("Failed to set font size");
         
 
-
-        FT_Int32 flags = FT_LOAD_RENDER /*| FT_LOAD_TARGET_(FT_RENDER_MODE_SDF) */;
+        FT_Int32 flags = FT_LOAD_RENDER | FT_LOAD_TARGET_(FT_RENDER_MODE_SDF) ;
         
         for(int i = 32; i < 128; i++)
         {
             error = FT_Load_Char(m_face, i, flags);
             if (error)
                 throw std::runtime_error("Failed to load glyph");
+            
+            error = FT_Render_Glyph(m_face->glyph, FT_RENDER_MODE_SDF);
+            if (error)
+                throw std::runtime_error("Failed to render glyph");
 
             m_glyphAtlas.m_atlasWidth += m_face->glyph->bitmap.width;
             if(m_glyphAtlas.m_atlasHeight < m_face->glyph->bitmap.rows)
@@ -64,6 +68,8 @@ namespace yadl
                 atlasOffset += m_glyphAtlas.m_atlasWidth;
                 glyphOffset += bitmap->pitch;
             }
+
+            // io::SaveAsPNG("glyph_" + std::to_string(i) + ".png", m_glyphCanvasMap[i]);
 
             atlasOffset -= m_glyphAtlas.m_atlasWidth * bitmap->rows;
             atlasOffset += bitmap->width;

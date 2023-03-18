@@ -43,7 +43,7 @@ namespace yadl
                 for (int32_t j = 0; j < charCanvas.GetHeight(); j++)
                 {
                     Pixel charPixel = charCanvas.GetPixel(i, j);
-                    if(charPixel.a > 0)
+                    if(charPixel.a > 128)
                     {
                         Pixel& canvasPixel = state.canvas.RefPixel(x + i - static_cast<int32_t>(metrics.bearingX * state.fontScale)
                                                              , y + j - static_cast<int32_t>(metrics.bearingY * state.fontScale));
@@ -51,9 +51,36 @@ namespace yadl
                         targetColor *= charPixel;
                         canvasPixel = targetColor;
                     } 
+
+
+                    // TODO: Fix this
+                    // const float distance = (float)charCanvas.GetPixel(i, j).a / 255.0f;
+                    // const float buffer = 0.2f;
+                    // const float gamma = 1.0f;
+
+                    // smoothstep:
+                    // t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+                    // return t * t * (3.0 - 2.0 * t);
+
+                    // alpha = smoothstep(buffer - gamma, buffer + gamma, distance)
+                    
+                    // float t = std::clamp((distance - (buffer - gamma)) / (buffer + gamma - (buffer - gamma)), 0.0f, 1.0f);
+                    // float alpha = t * t * (3.0f - 2.0f * t);
+
+                    // if(alpha > 0.0f && alpha < 1.0f)
+                    // {
+                    //     Pixel& canvasPixel = state.canvas.RefPixel(x + i - static_cast<int32_t>(metrics.bearingX * state.fontScale)
+                    //                                          , y + j - static_cast<int32_t>(metrics.bearingY * state.fontScale));
+                    //     Pixel targetColor = state.color;
+                    //     targetColor.a = static_cast<uint8_t>(targetColor.a * alpha);
+                    //     canvasPixel.Blend(targetColor);
+                    // }
+
+                
+
                 }
             }
-            x += static_cast<int32_t>((metrics.width + metrics.bearingX) * state.fontScale);
+            x += static_cast<int32_t>((metrics.width + metrics.bearingX + metrics.bearingX) * state.fontScale);
         }
     }
 

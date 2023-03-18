@@ -3,7 +3,6 @@ Yet Another Drawing Library
 
 # Todo
 - add more examples
-- sdf font rendering (maybe)
 - 3d
 - better readme
 
