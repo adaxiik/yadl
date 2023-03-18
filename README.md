@@ -19,6 +19,7 @@ Yet Another Drawing Library
 # Used libraries
 - [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h)
 - [stb_image_write](https://github.com/nothings/stb/blob/master/stb_image_write.h)
+- [gif-h](https://github.com/charlietangora/gif-h)
 - [imgui](https://github.com/ocornut/imgui) (for sdl examples)
 
 # Assets
