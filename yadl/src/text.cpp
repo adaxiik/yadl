@@ -13,7 +13,7 @@ namespace yadl
 
         constexpr int32_t spaceWidth = 10;
         int32_t x = state.positionX;
-        int32_t y = state.positionY;
+        int32_t y = state.positionY + ctx.GetCurrentTextHeight();
 
         for (char c : text)
         {

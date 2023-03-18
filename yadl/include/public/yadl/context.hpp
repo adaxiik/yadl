@@ -76,8 +76,7 @@ namespace yadl
         Guard CreateGuard()
         {
             m_stateStack.push(m_currentState);
-            return std::move(Guard([&]()
-                                   { RestoreState(); }));
+            return Guard([this]() { RestoreState();});
         }
 
         Context &SetColor(Pixel color)

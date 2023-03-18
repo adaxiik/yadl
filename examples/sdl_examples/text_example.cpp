@@ -31,7 +31,7 @@ private:
                             static_cast<uint8_t>(m_color[2] * 255),
                             static_cast<uint8_t>(m_color[3] * 255));
 
-        m_ctx.SetColor(color).SetFontScale(m_fontScale).SetPosition(20, 50);
+        m_ctx.SetColor(color).SetFontScale(m_fontScale).SetPosition(20, 10);
         Text::DrawText(m_ctx, m_text);
         
     }

@@ -166,7 +166,7 @@ namespace yadl
     Canvas Canvas::Resize(int32_t width, int32_t height) const
     {
         if(width == m_width && height == m_height)
-            return DeepCopy();
+            return std::move(DeepCopy());
 
         Canvas c(width, height);
         for (int32_t y = 0; y < height; y++)
