@@ -116,5 +116,4 @@ namespace yadl
         constexpr Pixel Transparent = Pixel(0, 0, 0, 0);
         constexpr Pixel Dark = Pixel(0x18, 0x18, 0x18, 255);
     }
-
 }

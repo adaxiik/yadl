@@ -8,7 +8,7 @@ namespace yadl
         return *this;
     }
 
-    const Canvas& Animation::GetFrame(int index) const
+    const Canvas& Animation::GetFrame(size_t index) const
     {
         return m_frames[index];
     }
@@ -18,8 +18,10 @@ namespace yadl
         return m_frames.size();
     }
 
-    Animation& Animation::RemoveFrame(int index)
+    Animation& Animation::RemoveFrame(size_t index)
     {
+        if (index >= m_frames.size())
+            return *this;
         m_frames.erase(m_frames.begin() + index);
         return *this;
     }

@@ -9,7 +9,4 @@ namespace yadl
     {
     }
 
-    Font::~Font()
-    {
-    }
 }

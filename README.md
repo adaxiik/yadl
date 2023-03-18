@@ -4,7 +4,6 @@ Yet Another Drawing Library
 # Todo
 - add more examples
 - sdf font rendering (maybe)
-- documentation
 - gfx 
 - 3d
 - better readme

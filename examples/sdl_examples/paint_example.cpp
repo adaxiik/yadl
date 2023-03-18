@@ -15,6 +15,8 @@ private:
     float m_color[4] = {1.0f, 1.0f, 1.0f, 1.0f};
     int m_mouseX {0};
     int m_mouseY {0};
+    int m_mouseLastX {0};
+    int m_mouseLastY {0};
     bool m_mouseDown {false};
     int m_brushSize {10};
     std::string m_saveAs {"painting.png"};
@@ -38,10 +40,10 @@ private:
                     static_cast<uint8_t>(m_color[2] * 255),
                     static_cast<uint8_t>(m_color[3] * 255)};
 
-        m_ctx.SetColor(color).SetPosition(canvasX, canvasY);
+        m_ctx.SetColor(color).SetPosition(canvasX, canvasY).SetThickness(m_brushSize);
 
         if (m_mouseDown)
-            Shape::DrawFilledCircleAA(m_ctx, m_brushSize);
+            Shape::DrawLineAA(m_ctx, m_mouseLastX, m_mouseLastY);
 
         
     }
@@ -68,6 +70,8 @@ private:
     virtual void OnUpdate(double deltaTime)
     {
         (void)deltaTime;
+        m_mouseLastX = m_mouseX;
+        m_mouseLastY = m_mouseY;
         m_mouseDown = SDL_GetMouseState(&m_mouseX, &m_mouseY) & SDL_BUTTON(SDL_BUTTON_RIGHT);
     }
 public:
