@@ -1,12 +1,36 @@
 # YADL
 Yet Another Drawing Library
 
+# Use cases
+- Quick prototyping (images, animations)
+- Embedded devices (pure cpu rendering, no gpu required)
+
+# Features
+- Simple to use 
+- Alpha blending
+- Simple shapes (lines, rectangles, circles)
+- Text rendering and font loading
+- Loading, saving images
+- Animations and export to gif
+- Antialiased circles and lines
+- Graphical effects (blur, grayscale, invert, blur)
+- Image resizing
+- and other useful stuff
+
 # Todo
 - 3d
-- better readme
+- Texture mapping
+- Multithreading
 
 # Examples
 - see [classic examples](examples/classic_examples), for examples that generate images, and [sdl examples](examples/sdl_examples) for live examples that use sdl2.
+
+![shapes](readme_examples/thickness.png)
+![animation_circles](readme_examples/animation.gif)
+![animation_cube](readme_examples/cube.gif)
+![text](readme_examples/text.png)
+![blur](readme_examples/blur.png)
+![painting](readme_examples/painting.png)
 
 # Dependencies
 - [FreeType](https://www.freetype.org/download.html) (2.13+)
@@ -21,5 +45,5 @@ Yet Another Drawing Library
 - [imgui](https://github.com/ocornut/imgui) (for sdl examples)
 
 # Assets
-- Cat photo kindly borrowed from [Wikipedia](https://commons.wikimedia.org/wiki/File:Stray_cat_on_wall.jpg) (Public Domain), resized to 25% and converted to png.
+- [Cat photo](https://commons.wikimedia.org/wiki/File:Stray_cat_on_wall.jpg) (Public Domain), resized to 25% and converted to png.
 - [Font Roboto Condensed](https://www.1001freefonts.com/roboto-condensed.font)
