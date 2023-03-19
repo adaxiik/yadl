@@ -2,7 +2,6 @@
 Yet Another Drawing Library
 
 # Todo
-- add more examples
 - 3d
 - better readme
 
@@ -13,6 +12,7 @@ Yet Another Drawing Library
 - [FreeType](https://www.freetype.org/download.html) (2.13+)
 - [libpng](http://www.libpng.org/pub/png/libpng.html)
 - [SDL2](https://www.libsdl.org/download-2.0.php) (2.0.18+) for sdl examples
+- [GLM](https://github.com/g-truc/glm) for [cube example](examples/classic_examples/cube_example.cpp)
 
 # Used libraries
 - [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h)

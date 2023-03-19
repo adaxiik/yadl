@@ -8,9 +8,13 @@ add_library(imgui STATIC ${IMGUI_SRC} ${IMGUI_HEADERS})
 target_include_directories(imgui PUBLIC "sdl_examples/sdl_core/3rdparty/imgui")
 
 
-# classic examples
-add_executable(classic_examples "classic_examples/examples.cpp")
-target_link_libraries(classic_examples yadl m)
+# basic examples
+add_executable(basic_examples "classic_examples/basic_examples.cpp")
+target_link_libraries(basic_examples yadl m)
+
+# cube example
+add_executable(cube_example "classic_examples/cube_example.cpp")
+target_link_libraries(cube_example yadl m)
 
 # sdl examples
 # circle 
