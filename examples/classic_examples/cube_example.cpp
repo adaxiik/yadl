@@ -44,10 +44,10 @@ int main(int argc, char const *argv[])
     const int line_width = std::min(width, height) / 300;
     const int circle_radius = std::min(width, height) / 100;
 
-    const float scale = 800.0f;
+    const float scale = 130.0f;
     const float center_x = width / 2.0f;
     const float center_y = height / 2.0f;
-    const float fov = 60.0f;
+    const float fov = glm::radians(90.0f);
     const int frame_count = 300;
     const int frame_delay = 2;
 
