@@ -13,7 +13,7 @@ Yet Another Drawing Library
 - Loading, saving images
 - Animations and export to gif
 - Antialiased circles and lines
-- Graphical effects (blur, grayscale, invert, blur)
+- Graphical effects (blur, grayscale, invert)
 - Image resizing
 - and other useful stuff
 
