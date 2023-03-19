@@ -26,10 +26,15 @@ Yet Another Drawing Library
 - see [classic examples](examples/classic_examples), for examples that generate images, and [sdl examples](examples/sdl_examples) for live examples that use sdl2.
 
 ![shapes](readme_examples/thickness.png)
+
 ![animation_circles](readme_examples/animation.gif)
+
 ![animation_cube](readme_examples/cube.gif)
+
 ![text](readme_examples/text.png)
+
 ![blur](readme_examples/blur.png)
+
 ![painting](readme_examples/painting.png)
 
 # Dependencies
