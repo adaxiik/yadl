@@ -44,7 +44,7 @@ int main(int argc, char const *argv[])
     float y2 = canvas.GetCenterY() + canvas.GetHeight() / 4;
 
 
-    const int frames = 100;
+    const int frames = 300;
     const float angle = 2 * PI / frames;
 
     for (int i = 0; i < frames; i++)
@@ -66,7 +66,7 @@ int main(int argc, char const *argv[])
         animation.AddFrame(canvas);
     }
 
-    io::SaveAsGIF("triangle.gif", animation);
+    io::SaveAsGIF("triangle.gif", animation, 2);
 
     return 0;
 }

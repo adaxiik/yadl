@@ -37,6 +37,8 @@ Yet Another Drawing Library
 
 ![painting](readme_examples/painting.png)
 
+![triangle](readme_examples/triangle.gif)
+
 # Usage
 ```cpp
 #include <yadl/yadl.hpp>
