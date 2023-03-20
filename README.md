@@ -40,7 +40,7 @@ Yet Another Drawing Library
 ![triangle](readme_examples/triangle.gif)
 
 ![textured_triangle](readme_examples/textured_triangle.gif)
-###### (example above uses 2 triangles and texture mapping, also logo was resized to 250x250, so it looks a bit squished)
+###### (example above uses 2 triangles and texture mapping, also logo was resized to 250x250, so it looks a bit squished. See [texture_mapping_example.cpp](examples/classic_examples/texture_mapping_example.cpp)
 
 # Usage
 ```cpp
