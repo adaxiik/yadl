@@ -8,7 +8,7 @@ Yet Another Drawing Library
 # Features
 - Simple to use 
 - Alpha blending
-- Simple shapes (lines, rectangles, circles)
+- Simple shapes (lines, rectangles, circles, triangles)
 - Text rendering and font loading
 - Loading, saving images
 - Animations and export to gif
@@ -36,6 +36,31 @@ Yet Another Drawing Library
 ![blur](readme_examples/blur.png)
 
 ![painting](readme_examples/painting.png)
+
+# Usage
+```cpp
+#include <yadl/yadl.hpp>
+
+int main(int argc, char const *argv[])
+{
+    using namespace yadl;
+
+    Canvas canvas(500, 500);
+    canvas.Clear(Color::Dark);
+    Context ctx(canvas);
+    ctx.SetColor(Color::Red).SetPosition(canvas.GetCenterX(), canvas.GetCenterY());
+    
+    int radius = 150;
+    shape::DrawFilledCircleAA(ctx, radius); // AA stands for antialiased
+
+    io::SaveAsPNG("circle.png", canvas);
+    return 0;
+}
+```
+#### This code can be found in [circle_example.cpp](examples/classic_examples/readme_example.cpp) 
+#### Output:
+
+![circle](readme_examples/circle.png)
 
 # Dependencies
 - [FreeType](https://www.freetype.org/download.html) (2.13+)

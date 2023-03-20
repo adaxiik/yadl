@@ -76,6 +76,14 @@ namespace yadl
                          static_cast<uint8_t>(a.a + (b.a - a.a) * t));
         }
 
+        constexpr static Pixel Lerp(const Pixel &a, const Pixel &b, const Pixel &c, float u, float v, float w)
+        {
+            return Pixel(static_cast<uint8_t>(a.r * u + b.r * v + c.r * w),
+                         static_cast<uint8_t>(a.g * u + b.g * v + c.g * w),
+                         static_cast<uint8_t>(a.b * u + b.b * v + c.b * w),
+                         static_cast<uint8_t>(a.a * u + b.a * v + c.a * w));
+        }
+
         // todo slerp
 
         constexpr Pixel &Blend(const Pixel &other)

@@ -132,7 +132,7 @@ namespace yadl
             };
         }
 
-         int32_t x = 0;
+        int32_t x = 0;
         int32_t y = radius;
         int32_t d = 3 - 2 * radius;
 

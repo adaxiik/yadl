@@ -7,6 +7,9 @@ file(GLOB IMGUI_HEADERS "sdl_examples/sdl_core/3rdparty/imgui/*.h")
 add_library(imgui STATIC ${IMGUI_SRC} ${IMGUI_HEADERS})
 target_include_directories(imgui PUBLIC "sdl_examples/sdl_core/3rdparty/imgui")
 
+# readme example
+add_executable(readme_example "classic_examples/readme_example.cpp")
+target_link_libraries(readme_example yadl)
 
 # basic examples
 add_executable(basic_examples "classic_examples/basic_examples.cpp")
@@ -15,6 +18,10 @@ target_link_libraries(basic_examples yadl m)
 # cube example
 add_executable(cube_example "classic_examples/cube_example.cpp")
 target_link_libraries(cube_example yadl m)
+
+# triangle example
+add_executable(triangle_example "classic_examples/triangle_example.cpp")
+target_link_libraries(triangle_example yadl m)
 
 # sdl examples
 # circle 
