@@ -209,5 +209,19 @@ namespace yadl
          * @param c2 color of the third vertex
          */
         void DrawTriangle(Context& ctx, const Triangle& triangle, Pixel c0, Pixel c1, Pixel c2);
+
+        // void DrawTexturedTriangle(Context& ctx
+        //                         , int32_t x0, int32_t y0
+        //                         , int32_t x1, int32_t y1
+        //                         , int32_t x2, int32_t y2
+        //                         , int32_t u0, int32_t v0
+        //                         , int32_t u1, int32_t v1
+        //                         , int32_t u2, int32_t v2
+        //                         , const Canvas& texture);
+                                
+        void DrawTexturedTriangle(Context& ctx
+                                , const Triangle& triangle
+                                , const FloatTriangle& uv
+                                , const Canvas& texture);
     }
 } 

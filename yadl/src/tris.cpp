@@ -115,15 +115,58 @@ namespace yadl
             state.color = original_color;
         }
 
-        void DrawTriangle(Context& ctx, int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x2, int32_t y2)
+        void DrawTriangle(Context& ctx
+                        , int32_t x0, int32_t y0
+                        , int32_t x1, int32_t y1
+                        , int32_t x2, int32_t y2)
         {
             DrawTriangle(ctx, Triangle{x0, y0, x1, y1, x2, y2});
         }
 
-        void DrawTriangle(Context& ctx, int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x2, int32_t y2, Pixel c0, Pixel c1, Pixel c2)
+        void DrawTriangle(Context& ctx
+                        , int32_t x0, int32_t y0
+                        , int32_t x1, int32_t y1
+                        , int32_t x2, int32_t y2
+                        , Pixel c0, Pixel c1, Pixel c2)
         {
             DrawTriangle(ctx, Triangle{x0, y0, x1, y1, x2, y2}, c0, c1, c2);
         }
 
+
+        void DrawTexturedTriangle(Context& ctx
+                                , const Triangle& triangle
+                                , const FloatTriangle& uv
+                                , const Canvas& texture)
+        {
+
+            auto& state = ctx.GetState();
+            Pixel original_color = state.color;
+
+            int32_t min_x = std::min(triangle.x0, std::min(triangle.x1, triangle.x2));
+            int32_t max_x = std::max(triangle.x0, std::max(triangle.x1, triangle.x2));
+            int32_t min_y = std::min(triangle.y0, std::min(triangle.y1, triangle.y2));
+            int32_t max_y = std::max(triangle.y0, std::max(triangle.y1, triangle.y2));
+
+            for (int32_t y = min_y; y <= max_y; y++)
+            {
+                for (int32_t x = min_x; x <= max_x; x++)
+                {
+                    float u, v, w;
+                    if (Barycentric(triangle, x, y, u, v, w))
+                    {
+                        float tu = uv.x0 * u + uv.x1 * v + uv.x2 * w;
+                        float tv = uv.y0 * u + uv.y1 * v + uv.y2 * w;
+
+                        int32_t tx = static_cast<int32_t>(tu * texture.GetWidth());
+                        int32_t ty = static_cast<int32_t>(tv * texture.GetHeight());
+
+                        state.color = texture.GetPixel(tx, ty);
+                        state.action(state.canvas.RefPixel(x, y));
+                    }
+                }
+            }
+
+            state.color = original_color;
+        }
     }
 }

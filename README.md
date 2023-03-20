@@ -39,6 +39,9 @@ Yet Another Drawing Library
 
 ![triangle](readme_examples/triangle.gif)
 
+![textured_triangle](readme_examples/textured_triangle.gif)
+###### (example above uses 2 triangles and texture mapping, also logo was resized to 250x250, so it looks a bit squished)
+
 # Usage
 ```cpp
 #include <yadl/yadl.hpp>
@@ -79,3 +82,4 @@ int main(int argc, char const *argv[])
 # Assets
 - [Cat photo](https://commons.wikimedia.org/wiki/File:Stray_cat_on_wall.jpg) (Public Domain), resized to 25% and converted to png.
 - [Font Roboto Condensed](https://www.1001freefonts.com/roboto-condensed.font)
+- [C++ logo](https://github.com/Benio101/cpp-logo) (Public Domain) resized to 250x250px
