@@ -327,28 +327,5 @@ int main(int argc, char const *argv[])
     example_gfx("grayscale.png", "invert.png","blur.png", "assets/cat.png");
     YADL_PERF_END(ALL_EXAMPLES);
 
-    // Canvas canvas(...);
-    // Context ctx(canvas);
-    // ctx.set_color(RED);
-    // ctx.move_to(100, 100);
-    // ctx.line_to(120, 120);
-    // ctx.line_to(140, 100);
-    // {
-    //     auto guard = ctx.save();
-    //     ctx.set_color(BLUE); // nyní je barva modrá
-    //     ctx.rectangle(...);
-    // } // guard skončil, zavolá se ctx.restore(), barva se vrátí na červenou
-
-    // TODOOO:
-    // Canvas tex("texture.png", ImageFormat::PNG);
-    // tex.Resize(50, 50);
-    // textures::DrawTexture(canvas, tex, 0, 0);
-
-    // gfx::ToGrayscale(canvas);
-    // gfx::Invert(canvas);
-    // gfx::Blur(canvas, 5);
-
-    // canvas.Save("test.jpg", ImageFormat::JPG);
-
     return 0;
 }

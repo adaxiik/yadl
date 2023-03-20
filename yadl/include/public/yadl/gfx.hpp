@@ -21,7 +21,15 @@ namespace yadl
          * @param ctx 
          */
         void Invert(Context &ctx);
+
+        /**
+         * @brief Applies a blur effect to the image.
+         * 
+         * @param ctx 
+         * @param radius 
+         */
         void Blur(Context &ctx, int32_t radius = 1);
+
         // TODOOO
         // static void Dither(Context& ctx);
     }
