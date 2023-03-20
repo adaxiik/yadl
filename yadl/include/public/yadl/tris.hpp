@@ -210,18 +210,48 @@ namespace yadl
          */
         void DrawTriangle(Context& ctx, const Triangle& triangle, Pixel c0, Pixel c1, Pixel c2);
 
-        // void DrawTexturedTriangle(Context& ctx
-        //                         , int32_t x0, int32_t y0
-        //                         , int32_t x1, int32_t y1
-        //                         , int32_t x2, int32_t y2
-        //                         , int32_t u0, int32_t v0
-        //                         , int32_t u1, int32_t v1
-        //                         , int32_t u2, int32_t v2
-        //                         , const Canvas& texture);
-                                
+                  
+        /**
+         * @brief Draw a textured triangle
+         * 
+         * @param ctx context with the canvas to draw on
+         * @param triangle screen coordinates of the triangle
+         * @param uv texture coordinates of the triangle in range [0, 1], where (0, 0) is the top left corner of the texture
+         * @param texture texture
+         */
         void DrawTexturedTriangle(Context& ctx
                                 , const Triangle& triangle
                                 , const FloatTriangle& uv
+                                , const Canvas& texture);
+
+
+        /** 
+         * @brief Draw a textured triangle
+         * 
+         * @note It just internally calls DrawTexturedTriangle(Context& ctx, const Triangle& triangle, const FloatTriangle& uv, const Canvas& texture)
+         * 
+         * @param ctx context with the canvas to draw on
+         * @param x0 first vertex x coordinate
+         * @param y0 first vertex y coordinate
+         * @param x1 second vertex x coordinate
+         * @param y1 second vertex y coordinate
+         * @param x2 third vertex x coordinate
+         * @param y2 third vertex y coordinate
+         * @param u0 first vertex u coordinate
+         * @param v0 first vertex v coordinate
+         * @param u1 second vertex u coordinate
+         * @param v1 second vertex v coordinate
+         * @param u2 third vertex u coordinate
+         * @param v2 third vertex v coordinate
+         * @param texture texture
+         */
+        void DrawTexturedTriangle(Context& ctx
+                                , int32_t x0, int32_t y0
+                                , int32_t x1, int32_t y1
+                                , int32_t x2, int32_t y2
+                                , int32_t u0, int32_t v0
+                                , int32_t u1, int32_t v1
+                                , int32_t u2, int32_t v2
                                 , const Canvas& texture);
     }
 } 

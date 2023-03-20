@@ -168,5 +168,20 @@ namespace yadl
 
             state.color = original_color;
         }
+
+        void DrawTexturedTriangle(Context& ctx
+                                , int32_t x0, int32_t y0
+                                , int32_t x1, int32_t y1
+                                , int32_t x2, int32_t y2
+                                , float u0, float v0
+                                , float u1, float v1
+                                , float u2, float v2
+                                , const Canvas& texture)
+        {
+            DrawTexturedTriangle(ctx
+                               , Triangle{x0, y0, x1, y1, x2, y2}
+                               , FloatTriangle{u0, v0, u1, v1, u2, v2}
+                               , texture);
+        }
     }
 }
