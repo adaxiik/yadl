@@ -18,8 +18,7 @@ Yet Another Drawing Library
 - and other useful stuff
 
 # Todo
-- 3d
-- Texture mapping
+- Fix texture mapping
 - Multithreading
 
 # Examples
@@ -46,6 +45,8 @@ Yet Another Drawing Library
 
 ![3d_texture_example](readme_examples/3d_texture_example.gif)
 ###### (I know about weird texture warping, but even while using perspective projection, it still looks like that.. might fix it later)
+
+![model_render_example](readme_examples/obj_loading.gif)
 
 # Usage
 ```cpp
@@ -83,9 +84,11 @@ int main(int argc, char const *argv[])
 - [stb_image_write](https://github.com/nothings/stb/blob/master/stb_image_write.h)
 - [gif-h](https://github.com/charlietangora/gif-h)
 - [imgui](https://github.com/ocornut/imgui) (for sdl examples)
+- [tinyobjloader](https://github.com/tinyobjloader/tinyobjloader)
 
 # Assets
 - [Cat photo](https://commons.wikimedia.org/wiki/File:Stray_cat_on_wall.jpg) (Public Domain), resized to 25% and converted to png.
 - [Font Roboto Condensed](https://www.1001freefonts.com/roboto-condensed.font)
 - [C++ logo](https://github.com/Benio101/cpp-logo) (Public Domain) resized to 250x250px
 - [Box texture](https://learnopengl.com/img/textures/container2.png)
+- [Wet Floor Sign model](https://polyhaven.com/a/WetFloorSign_01)

@@ -123,6 +123,7 @@ int main(int argc, char const *argv[])
                 projected.x = (projected.x + 1.0f) * center_x;
                 projected.y = (projected.y + 1.0f) * center_y;
                 transformed_vertices[i] = glm::vec3(projected);
+
             }
 
             tris::FloatTriangle screenspace_tris(transformed_vertices[0].x, transformed_vertices[0].y,

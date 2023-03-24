@@ -31,6 +31,10 @@ target_link_libraries(texture_mapping_example yadl m)
 add_executable(3d_example "classic_examples/3d_example.cpp")
 target_link_libraries(3d_example yadl m)
 
+# model example
+add_executable(model_render_example "classic_examples/model_render_example.cpp")
+target_link_libraries(model_render_example yadl m)
+
 # sdl examples
 # circle 
 add_executable(circle_example "sdl_examples/circle_example.cpp")
