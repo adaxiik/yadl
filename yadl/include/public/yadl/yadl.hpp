@@ -10,3 +10,4 @@
 #include "font.hpp"
 #include "gfx.hpp"
 #include "guard.hpp"
+#include "depth_buffer.hpp"

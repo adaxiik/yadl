@@ -9,6 +9,7 @@
 #include "canvas.hpp"
 #include "guard.hpp"
 #include "font.hpp"
+#include "depth_buffer.hpp"
 
 namespace yadl
 {
@@ -25,6 +26,7 @@ namespace yadl
             int32_t positionY{0};
             ShapeActionFn action;
             Canvas canvas;
+            DepthBuffer depthBuffer;
             Font font;
             float fontScale{1.0f};
         };
@@ -59,8 +61,15 @@ namespace yadl
             m_currentState.positionY = 0;
             m_currentState.action = m_set;
             m_currentState.canvas = canvas;
+            m_currentState.depthBuffer = DepthBuffer(canvas.GetWidth(), canvas.GetHeight());
             m_currentState.fontScale = 1.0f;
         }
+
+        Context(Canvas canvas, DepthBuffer depthBuffer) : Context(canvas)
+        {
+            m_currentState.depthBuffer = depthBuffer;
+        }
+
         Context(const Context &other) = default;
         Context &operator=(const Context &other) = default;
         Context(Context &&other) noexcept = default;

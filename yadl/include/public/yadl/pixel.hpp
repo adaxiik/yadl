@@ -63,6 +63,11 @@ namespace yadl
             return *this;
         }
 
+        constexpr inline uint32_t ToInt32() const
+        {
+            return (a << 24) | (b << 16) | (g << 8) | r;
+        }
+
         constexpr static uint32_t RGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
         {
             return (a << 24) | (b << 16) | (g << 8) | r;

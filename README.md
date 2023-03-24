@@ -42,6 +42,11 @@ Yet Another Drawing Library
 ![textured_triangle](readme_examples/textured_triangle.gif)
 ###### (example above uses 2 triangles and texture mapping, also logo was resized to 250x250, so it looks a bit squished. See [texture_mapping_example.cpp](examples/classic_examples/texture_mapping_example.cpp)
 
+![3d_example](readme_examples/3d_example.gif)
+
+![3d_texture_example](readme_examples/3d_texture_example.gif)
+###### (I know about weird texture warping, but even while using perspective projection, it still looks like that.. might fix it later)
+
 # Usage
 ```cpp
 #include <yadl/yadl.hpp>
@@ -83,3 +88,4 @@ int main(int argc, char const *argv[])
 - [Cat photo](https://commons.wikimedia.org/wiki/File:Stray_cat_on_wall.jpg) (Public Domain), resized to 25% and converted to png.
 - [Font Roboto Condensed](https://www.1001freefonts.com/roboto-condensed.font)
 - [C++ logo](https://github.com/Benio101/cpp-logo) (Public Domain) resized to 250x250px
+- [Box texture](https://learnopengl.com/img/textures/container2.png)

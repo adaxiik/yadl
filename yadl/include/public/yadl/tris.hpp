@@ -253,5 +253,60 @@ namespace yadl
                                 , int32_t u1, int32_t v1
                                 , int32_t u2, int32_t v2
                                 , const Canvas& texture);
+
+
+        /**
+         * @brief Draw a triangle with z-buffer
+         * 
+         * @warning The z-buffer must be set in the context
+         * 
+         * @param ctx context
+         * @param triangle screen coordinates of the triangle
+         * @param z0 z coordinate of the first vertex
+         * @param z1 z coordinate of the second vertex
+         * @param z2 z coordinate of the third vertex
+         */
+        void DrawTriangleZ(Context& ctx
+                         , const FloatTriangle& triangle
+                         , float z0, float z1, float z2);
+
+
+        /**
+         * @brief Draw a triangle with z-buffer
+         * 
+         * @warning The z-buffer must be set in the context
+         * 
+         * @param ctx context
+         * @param triangle screen coordinates of the triangle
+         * @param z0 z coordinate of the first vertex
+         * @param z1 z coordinate of the second vertex
+         * @param z2 z coordinate of the third vertex
+         * @param c0 color of the first vertex
+         * @param c1 color of the second vertex
+         * @param c2 color of the third vertex
+         */
+        void DrawTriangleZ(Context& ctx
+                         , const FloatTriangle& triangle
+                         , float z0, float z1, float z2
+                         , Pixel c0, Pixel c1, Pixel c2);
+
+        /**
+         * @brief Draw a textured triangle with z-buffer
+         * 
+         * @note It does perspective correct interpolation of the texture coordinates
+         * 
+         * @param ctx context with the canvas to draw on
+         * @param triangle screen coordinates of the triangle
+         * @param z0 z coordinate of the first vertex
+         * @param z1 z coordinate of the second vertex
+         * @param z2 z coordinate of the third vertex
+         * @param uv texture coordinates of the triangle in range [0, 1], where (0, 0) is the top left corner of the texture
+         * @param texture texture
+         */
+        void DrawTexturedTriangleZ(Context& ctx
+                                 , const FloatTriangle& triangle
+                                 , float z0, float z1, float z2
+                                 , const FloatTriangle& uv
+                                 , const Canvas& texture);
     }
 } 

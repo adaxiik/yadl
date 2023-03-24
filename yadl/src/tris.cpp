@@ -1,4 +1,5 @@
 #include "tris.hpp"
+#include <cstring>
 
 namespace yadl
 {
@@ -182,6 +183,129 @@ namespace yadl
                                , Triangle{x0, y0, x1, y1, x2, y2}
                                , FloatTriangle{u0, v0, u1, v1, u2, v2}
                                , texture);
+        }
+
+        void DrawTriangleZ(Context& ctx, const FloatTriangle& triangle, float z0, float z1, float z2)
+        {
+            auto& state = ctx.GetState();
+
+            int32_t min_x = std::min(triangle.x0, std::min(triangle.x1, triangle.x2));
+            int32_t max_x = std::max(triangle.x0, std::max(triangle.x1, triangle.x2));
+            int32_t min_y = std::min(triangle.y0, std::min(triangle.y1, triangle.y2));
+            int32_t max_y = std::max(triangle.y0, std::max(triangle.y1, triangle.y2));
+
+            for (int32_t y = min_y; y <= max_y; y++)
+            {
+                for (int32_t x = min_x; x <= max_x; x++)
+                {
+                    float u, v, w;
+                    if (Barycentric(triangle, x, y, u, v, w))
+                    {
+                        float current_z = z0 * u + z1 * v + z2 * w;
+                        float buffer_z = state.depthBuffer.GetDepth(x, y);
+
+                        if (current_z > buffer_z)
+                        {
+                            state.depthBuffer.SetDepth(x, y, current_z);
+                            state.action(state.canvas.RefPixel(x, y));
+                        }
+                    }
+                }
+            }
+        }
+
+        void DrawTriangleZ(Context& ctx
+                         , const FloatTriangle& triangle
+                         , float z0, float z1, float z2
+                         , Pixel c0, Pixel c1, Pixel c2)
+        {
+            auto& state = ctx.GetState();
+
+            int32_t min_x = std::min(triangle.x0, std::min(triangle.x1, triangle.x2));
+            int32_t max_x = std::max(triangle.x0, std::max(triangle.x1, triangle.x2));
+            int32_t min_y = std::min(triangle.y0, std::min(triangle.y1, triangle.y2));
+            int32_t max_y = std::max(triangle.y0, std::max(triangle.y1, triangle.y2));
+
+            for (int32_t y = min_y; y <= max_y; y++)
+            {
+                for (int32_t x = min_x; x <= max_x; x++)
+                {
+                    float u, v, w;
+                    if (Barycentric(triangle, x, y, u, v, w))
+                    {
+                        float current_z = z0 * u + z1 * v + z2 * w;
+                        float buffer_z = state.depthBuffer.GetDepth(x, y);
+
+                        if (current_z < buffer_z)
+                        {
+                            state.depthBuffer.SetDepth(x, y, current_z);
+                            state.color = Pixel::Lerp(c0, c1, c2, u, v, w);
+                            state.action(state.canvas.RefPixel(x, y));
+                        }
+                    }
+                }
+            }
+        }
+
+        void DrawTexturedTriangleZ(Context& ctx
+                                 , const FloatTriangle& triangle
+                                 , float z0, float z1, float z2
+                                 , const FloatTriangle& uv
+                                 , const Canvas& texture)
+        {
+            auto& state = ctx.GetState();
+            Pixel original_color = state.color;
+
+            int32_t min_x = std::min(triangle.x0, std::min(triangle.x1, triangle.x2));
+            int32_t max_x = std::max(triangle.x0, std::max(triangle.x1, triangle.x2));
+            int32_t min_y = std::min(triangle.y0, std::min(triangle.y1, triangle.y2));
+            int32_t max_y = std::max(triangle.y0, std::max(triangle.y1, triangle.y2));
+
+            // https://gamedev.stackexchange.com/questions/121240/perspective-correct-texture-mapping
+            // https://en.wikipedia.org/wiki/Texture_mapping
+            // this took me so long to figure out, and it still doesn't work as well as I'd like, but im too tired to trying to fix it
+            
+            // reciprocal of z
+            float rz0 = 1.0f / z0;
+            float rz1 = 1.0f / z1;
+            float rz2 = 1.0f / z2;
+
+            FloatTriangle uv_div_z = {uv.x0 * rz0, uv.y0 * rz0,
+                                      uv.x1 * rz1, uv.y1 * rz1,
+                                      uv.x2 * rz2, uv.y2 * rz2};
+
+
+            for (int32_t y = min_y; y <= max_y; y++)
+            {
+                for (int32_t x = min_x; x <= max_x; x++)
+                {
+                    float u, v, w;
+                    if (Barycentric(triangle, x, y, u, v, w))
+                    {
+                        double current_z = z0 * u + z1 * v + z2 * w;
+                        float buffer_z = state.depthBuffer.GetDepth(x, y);
+
+                        if (current_z < buffer_z)
+                        {
+                            state.depthBuffer.SetDepth(x, y, current_z);
+                            
+                            float tu_div_z = uv_div_z.x0 * u + uv_div_z.x1 * v + uv_div_z.x2 * w;
+                            float tv_div_z = uv_div_z.y0 * u + uv_div_z.y1 * v + uv_div_z.y2 * w;
+
+                            float tu = tu_div_z * current_z;
+                            float tv = tv_div_z * current_z;
+
+                            int32_t tx = static_cast<int32_t>(tu * texture.GetWidth());
+                            int32_t ty = static_cast<int32_t>(tv * texture.GetHeight());
+
+                            state.color = texture.GetPixel(tx, ty);
+                            state.action(state.canvas.RefPixel(x, y));
+                        }
+                    }
+                }
+            }
+
+            state.color = original_color;
         }
     }
 }
