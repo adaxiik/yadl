@@ -88,11 +88,14 @@ int main(int argc, char const *argv[])
             ctx.SetPosition(v.x * scale + center_x, v.y * scale + center_y);
             shape::DrawFilledCircle(ctx, circle_radius);
         }
-
+        std::cout << "Rendering frame " << i + 1 << "/" << frame_count << std::endl;
         animation.AddFrame(canvas);
     }
 
+    std::cout << "Saving animation as GIF" << std::endl;
     io::SaveAsGIF("cube.gif", animation, frame_delay);
+    std::cout << "Saving animation as Y4M" << std::endl;
+    io::SaveAsY4M("cube.y4m", animation, 100/frame_delay);
 
     return 0;
 }

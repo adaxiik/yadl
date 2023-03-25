@@ -75,5 +75,17 @@ namespace yadl
          * @return false otherwise
          */
         bool SaveAsGIF(const std::string& filename, const Animation& animation, int32_t delay = 10);
+
+
+        /**
+         * @brief Save an animation as a Y4M file
+         * 
+         * @param filename 
+         * @param animation 
+         * @param fps 
+         * @return true if the file was saved successfully
+         * @return false otherwise
+         */
+        bool SaveAsY4M(const std::string& filename, const Animation& animation, uint32_t fps = 30);
     }
 }
