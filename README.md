@@ -48,7 +48,16 @@ Yet Another Drawing Library
 
 ![model_render_example](readme_examples/obj_loading.gif)
 
-# Usage
+# Quick Start
+
+### Build library and all examples
+```sh
+$ mkdir build && cd build
+$ cmake ..
+$ make -j
+```
+
+### Usage
 ```cpp
 #include <yadl/yadl.hpp>
 
