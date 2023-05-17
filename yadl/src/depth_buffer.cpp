@@ -6,7 +6,7 @@ namespace yadl
 {
     DepthBuffer& DepthBuffer::Clear()
     {
-        float clearValue = std::numeric_limits<float>::max();
+        float clearValue = std::numeric_limits<float>::min();
         uint32_t clearValueInt;
         std::memcpy(&clearValueInt, &clearValue, sizeof(float));
         Pixel clearPixel(clearValueInt);

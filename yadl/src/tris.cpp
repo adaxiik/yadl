@@ -1,5 +1,6 @@
 #include "tris.hpp"
 #include <cstring>
+#include "debug.hpp"
 
 namespace yadl
 {
@@ -194,6 +195,10 @@ namespace yadl
             int32_t min_y = std::min(triangle.y0, std::min(triangle.y1, triangle.y2));
             int32_t max_y = std::max(triangle.y0, std::max(triangle.y1, triangle.y2));
 
+            float rz0 = 1.0f / z0;
+            float rz1 = 1.0f / z1;
+            float rz2 = 1.0f / z2;
+
             for (int32_t y = min_y; y <= max_y; y++)
             {
                 for (int32_t x = min_x; x <= max_x; x++)
@@ -201,7 +206,7 @@ namespace yadl
                     float u, v, w;
                     if (Barycentric(triangle, x, y, u, v, w))
                     {
-                        float current_z = z0 * u + z1 * v + z2 * w;
+                        float current_z = rz0 * u + rz1 * v + rz2 * w;
                         float buffer_z = state.depthBuffer.GetDepth(x, y);
 
                         if (current_z > buffer_z)
@@ -226,6 +231,10 @@ namespace yadl
             int32_t min_y = std::min(triangle.y0, std::min(triangle.y1, triangle.y2));
             int32_t max_y = std::max(triangle.y0, std::max(triangle.y1, triangle.y2));
 
+            float rz0 = 1.0f / z0;
+            float rz1 = 1.0f / z1;
+            float rz2 = 1.0f / z2;
+
             for (int32_t y = min_y; y <= max_y; y++)
             {
                 for (int32_t x = min_x; x <= max_x; x++)
@@ -233,10 +242,10 @@ namespace yadl
                     float u, v, w;
                     if (Barycentric(triangle, x, y, u, v, w))
                     {
-                        float current_z = z0 * u + z1 * v + z2 * w;
+                        float current_z = rz0 * u + rz1 * v + rz2 * w;
                         float buffer_z = state.depthBuffer.GetDepth(x, y);
 
-                        if (current_z < buffer_z)
+                        if (current_z > buffer_z)
                         {
                             state.depthBuffer.SetDepth(x, y, current_z);
                             state.color = Pixel::Lerp(c0, c1, c2, u, v, w);
@@ -246,7 +255,6 @@ namespace yadl
                 }
             }
         }
-
         void DrawTexturedTriangleZ(Context& ctx
                                  , const FloatTriangle& triangle
                                  , float z0, float z1, float z2
@@ -263,17 +271,15 @@ namespace yadl
 
             // https://gamedev.stackexchange.com/questions/121240/perspective-correct-texture-mapping
             // https://en.wikipedia.org/wiki/Texture_mapping
-            // this took me so long to figure out, and it still doesn't work as well as I'd like, but im too tired to trying to fix it
             
+            FloatTriangle uv_div_z =   {uv.x0 / z0, uv.y0 / z0,
+                                        uv.x1 / z1, uv.y1 / z1,
+                                        uv.x2 / z2, uv.y2 / z2};
+
             // reciprocal of z
             float rz0 = 1.0f / z0;
             float rz1 = 1.0f / z1;
             float rz2 = 1.0f / z2;
-
-            FloatTriangle uv_div_z = {uv.x0 * rz0, uv.y0 * rz0,
-                                      uv.x1 * rz1, uv.y1 * rz1,
-                                      uv.x2 * rz2, uv.y2 * rz2};
-
 
             for (int32_t y = min_y; y <= max_y; y++)
             {
@@ -282,18 +288,18 @@ namespace yadl
                     float u, v, w;
                     if (Barycentric(triangle, x, y, u, v, w))
                     {
-                        double current_z = z0 * u + z1 * v + z2 * w;
+                        double current_z = rz0 * u + rz1 * v + rz2 * w;
                         float buffer_z = state.depthBuffer.GetDepth(x, y);
-
-                        if (current_z < buffer_z)
+                    
+                        if (current_z > buffer_z)
                         {
                             state.depthBuffer.SetDepth(x, y, current_z);
                             
-                            float tu_div_z = uv_div_z.x0 * u + uv_div_z.x1 * v + uv_div_z.x2 * w;
-                            float tv_div_z = uv_div_z.y0 * u + uv_div_z.y1 * v + uv_div_z.y2 * w;
-
-                            float tu = tu_div_z * current_z;
-                            float tv = tv_div_z * current_z;
+                            double s = u * uv_div_z.x0 + v * uv_div_z.x1 + w * uv_div_z.x2;
+                            double t = u * uv_div_z.y0 + v * uv_div_z.y1 + w * uv_div_z.y2;
+                            
+                            float tu = s / current_z;
+                            float tv = t / current_z;
 
                             int32_t tx = static_cast<int32_t>(tu * texture.GetWidth());
                             int32_t ty = static_cast<int32_t>(tv * texture.GetHeight());

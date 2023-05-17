@@ -117,9 +117,12 @@ int main(int argc, char const *argv[])
             {
                 glm::vec3 v = vertices[triangle[i]].position;
                 glm::vec4 projected = mvp * glm::vec4(v, 1.0f);
-                projected /= projected.w;
+
+                projected.x /= projected.w;
+                projected.y /= projected.w;
                 projected.x = (projected.x + 1.0f) * center_x;
                 projected.y = (projected.y + 1.0f) * center_y;
+
                 transformed_vertices[i] = glm::vec3(projected);
             }
 

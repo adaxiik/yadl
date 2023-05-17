@@ -44,7 +44,6 @@ Yet Another Drawing Library
 ![3d_example](readme_examples/3d_example.gif)
 
 ![3d_texture_example](readme_examples/3d_texture_example.gif)
-###### (I know about weird texture warping, but even while using perspective projection, it still looks like that.. might fix it later)
 
 ![model_render_example](readme_examples/obj_loading.gif)
 
