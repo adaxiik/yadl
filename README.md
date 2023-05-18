@@ -18,7 +18,6 @@ Yet Another Drawing Library
 - and other useful stuff
 
 # Todo
-- Fix texture mapping
 - Multithreading
 
 # Examples
