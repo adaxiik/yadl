@@ -279,6 +279,29 @@ namespace yadl
             // font is loaded with 42 as height
             // @see font_internal.cpp
         }
+
+        /**
+         * @brief Set the Depth Buffer 
+         * 
+         * @param depthBuffer 
+         * @return Context& 
+         */
+        inline Context &SetDepthBuffer(DepthBuffer depthBuffer)
+        {
+            m_currentState.depthBuffer = depthBuffer;
+            return *this;
+        }
+
+        /**
+         * @brief Get the Depth Buffer
+         * 
+         * @return DepthBuffer& 
+         */
+        inline DepthBuffer &GetDepthBuffer()
+        {
+            return m_currentState.depthBuffer;
+        }
+
         
     };
 }

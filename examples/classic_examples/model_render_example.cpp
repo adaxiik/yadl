@@ -51,9 +51,9 @@ bool LoadModel(const std::string& path, std::vector<Vertex>& vertices, std::vect
 
 int main(int argc, char const *argv[])
 {
-    if (argc < 2)
+    if (argc < 3)
     {
-        std::cout << "Usage: " << argv[0] << " <model path>" << std::endl;
+        std::cout << "Usage: " << argv[0] << " <model path> <texture path>" << std::endl;
         return 1;
     }
 
@@ -70,7 +70,6 @@ int main(int argc, char const *argv[])
 
     const int width = 600;
     const int height = 600;
-    // const float scale = 20.0f;
 
     const float center_x = width / 2.0f;
     const float center_y = height / 2.0f;
@@ -81,7 +80,19 @@ int main(int argc, char const *argv[])
     using namespace yadl;
 
     Canvas canvas(width, height);
-    Canvas texture("assets/wetfloor.jpg");
+
+
+
+    std::optional<Canvas> texture_opt = io::Load(argv[2]);
+    if(!texture_opt.has_value())
+    {
+        std::cout << "Failed to load texture" << std::endl;
+        return 1;
+    }    
+
+    auto texture = texture_opt.value();
+
+
     DepthBuffer zBuffer(width, height);
 
     canvas.Clear(Color::Dark);
@@ -90,11 +101,10 @@ int main(int argc, char const *argv[])
     Context ctx(canvas, zBuffer);
     Animation animation(canvas.GetWidth(), canvas.GetHeight());
 
-    glm::mat4 view = glm::lookAt(glm::vec3(0.0f, -1.1f, 1.1f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.f, -4.f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     glm::mat4 projection = glm::perspective(fov, (float)width / (float)height, 0.1f, 100.0f);
-    glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(2.f));
-    glm::mat4 translation = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.3f, 0.0f));
-    glm::mat4 flip = glm::scale(glm::mat4(1.0f), glm::vec3(1.f, -1.f, 1.f));
+    glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.f));
+    glm::mat4 translation = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
 
     for (int i = 0; i < frame_count; i++)
@@ -105,7 +115,7 @@ int main(int argc, char const *argv[])
 
         glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0.0f, 1.0f, 0.0f)); // x
         
-        glm::mat4 model = scale * flip * rotation * translation;
+        glm::mat4 model = scale * rotation * translation;
         glm::mat4 mvp = projection * view * model;
 
         for (size_t j = 0; j < indices.size(); j += 3)
@@ -121,7 +131,7 @@ int main(int argc, char const *argv[])
                 projected.x /= projected.w;
                 projected.y /= projected.w;
                 projected.x = (projected.x + 1.0f) * center_x;
-                projected.y = (projected.y + 1.0f) * center_y;
+                projected.y = (2.f - (projected.y + 1.0f)) * center_y;
 
                 transformed_vertices[i] = glm::vec3(projected);
             }
@@ -147,7 +157,6 @@ int main(int argc, char const *argv[])
     }
 
     io::SaveAsGIF("wetfloor.gif", animation, frame_delay);
-
 
 
     return 0;

@@ -53,7 +53,7 @@ private:
 
     virtual void OnImGuiRender(double deltaTime)
     {
-        ImGui::Begin("Text Example");
+        ImGui::Begin("Gfx Example");
         ImGui::Text("FPS: %.2f", 1.0 / deltaTime);
         ImGui::InputText("Input image", &m_input);
         if(ImGui::Button("Load image"))

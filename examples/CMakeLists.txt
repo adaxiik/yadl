@@ -60,5 +60,11 @@ target_include_directories(gfx_example PUBLIC "sdl_examples/sdl_core/3rdparty/im
 target_link_libraries(gfx_example yadl m SDL2)
 target_link_libraries(gfx_example imgui)
 
+# model_viewer
+add_executable(model_viewer_example "sdl_examples/model_viewer_example.cpp")
+target_include_directories(model_viewer_example PUBLIC "sdl_examples/sdl_core/3rdparty/imgui" "sdl_examples/sdl_core/3rdparty")
+target_link_libraries(model_viewer_example yadl m SDL2)
+target_link_libraries(model_viewer_example imgui)
+
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${OUTPUT_DIR})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/clean_generated_examples.sh DESTINATION ${OUTPUT_DIR})
